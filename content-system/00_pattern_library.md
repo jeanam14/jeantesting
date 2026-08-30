@@ -12,6 +12,7 @@ Each entry comes from an actual `video_analysis_create` scene-by-scene breakdown
 
 ### <Channel name> — "<video title>" (analyzed <date>)
 - **Source**: <YouTube URL>
+- **Analysis tool used**: <Gemini / Higgsfield / OutlierKit — see PROCESS_MAP.md Stage 1>
 - **Views / channel age at time of analysis**: <e.g. 2.1M views, channel 41 days old>
 - **Hook (0-2s)**: <exactly what's shown/said in the opening beat>
 - **Scene count & pacing**: <e.g. 3 scenes: 0-8s setup, 8-14s escalation, 14-22s payoff>

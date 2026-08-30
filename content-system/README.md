@@ -1,21 +1,27 @@
 # AI Shorts Content System
 
+**Status: tool-testing phase.** See `PROCESS_MAP.md` for the full stage-by-stage list of tools being compared before we commit to one stack.
+
 Pipeline: **content-strategist** → **scriptwriter** → **content-creator** → you review & publish.
 
 Invoke each agent by name (e.g. ask Claude to "use the content-strategist agent to fill the idea backlog").
 
 ## Folder map
-- `00_pattern_library.md` — decoded hook/structure/pacing analysis of real winning videos (via Higgsfield `video_analysis_create`), owned by content-strategist, **required reading for scriptwriter before every script**
+- `PROCESS_MAP.md` — master reference: every tool being tested at every stage, with cost and setup status
+- `00_pattern_library.md` — decoded hook/structure/pacing analysis of real winning videos, tagged by which analysis tool produced it, owned by content-strategist, **required reading for scriptwriter before every script**
 - `01_ideas_backlog.md` — one-line video premises, owned by content-strategist
 - `02_calendar.md` — posting schedule, owned by content-strategist
 - `03_scripts/` — one file per video, owned by scriptwriter
-- `04_output/` — final rendered .mp4 files, owned by content-creator
+- `04_output/` — final rendered .mp4 files, one per script × tool tested (e.g. `<slug>__higgsfield.mp4`, `<slug>__falai-json2video.mp4`, `<slug>__viewmax.mp4`), owned by content-creator
+- `05_tool_comparison.md` — cost/quality log per tool tested at each stage — this is what eventually decides the winning stack
 
-## Setup still needed before content-creator can render anything
-1. fal.ai account + API key, connected as an MCP server
-2. JSON2Video account + API key, connected as an MCP server
+## Setup status for content-creation tools
+1. **Higgsfield** — ✅ already connected, no setup needed, test this first
+2. **fal.ai** — account + API key needed, connect as MCP server
+3. **JSON2Video** — account + API key needed, connect as MCP server (pairs with fal.ai)
+4. **Viewmax.io** — account + API key needed, connect as MCP server
 
-See the main conversation for exact signup steps.
+See the main conversation for exact signup steps for 2-4.
 
 ## Targets (from research)
 - Format: AI-generated cartoon mini-stories, 30-60s, recurring character, no real people
