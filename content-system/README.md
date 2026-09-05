@@ -8,6 +8,7 @@ Invoke each agent by name (e.g. ask Claude to "use the content-strategist agent 
 
 ## Folder map
 - `PROCESS_MAP.md` — master reference: every tool being tested at every stage, with cost and setup status
+- `TOOLS_REFERENCE.md` — the full wider list of every tool ever considered (including ones not being actively tested), so we don't re-research them later
 - `00_pattern_library.md` — decoded hook/structure/pacing analysis of real winning videos, tagged by which analysis tool produced it, owned by content-strategist, **required reading for scriptwriter before every script**
 - `01_ideas_backlog.md` — one-line video premises, owned by content-strategist
 - `02_calendar.md` — posting schedule, owned by content-strategist
