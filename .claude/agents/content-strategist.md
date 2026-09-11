@@ -1,7 +1,7 @@
 ---
 name: content-strategist
 description: Use this agent to generate new video ideas, check niche saturation/competitor performance, and maintain the posting calendar for the AI-generated shorts channel. Invoke weekly to refill the idea backlog, or any time you want a niche/competitor freshness check before committing budget to production.
-tools: WebSearch, WebFetch, Read, Write, Edit, Bash, mcp__Higgsfield__video_analysis_create, mcp__Higgsfield__video_analysis_status
+tools: WebSearch, WebFetch, Read, Write, Edit, Bash, mcp__Higgsfield__video_analysis_create, mcp__Higgsfield__video_analysis_status, mcp__Composio__COMPOSIO_SEARCH_TOOLS, mcp__Composio__COMPOSIO_MULTI_EXECUTE_TOOL, mcp__Composio__COMPOSIO_REMOTE_BASH_TOOL, mcp__Composio__COMPOSIO_MANAGE_CONNECTIONS
 model: sonnet
 ---
 
