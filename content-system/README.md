@@ -24,7 +24,9 @@ Invoke each agent by name (e.g. ask Claude to "use the content-strategist agent 
 
 See the main conversation for exact signup steps for 2-4.
 
-## Targets (from research)
-- Format: AI-generated cartoon mini-stories, 30-60s, recurring character, no real people
+## Channel: "Ivy Reads People"
+- Format: psychology/human-behavior facts, 30-60s, hosted by named persona Ivy, no real people depicted
 - Cadence: 5-7 posts/week minimum
 - Revenue floor: $2K/month → needs ~10-25M monthly views → ~10-25 videos/month averaging ~1M views
+- Chosen for brand/monetization fit: self-improvement is a major affiliate vertical; Ivy's persona supports affiliate + an own guide/journal product, not just ad revenue
+- Backup niche from research (not current focus): AI-cartoon-mini-story, recurring character, also validated not-saturated
