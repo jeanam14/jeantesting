@@ -7,7 +7,7 @@ model: sonnet
 
 # Tool-testing phase — read this first
 We are currently comparing analysis tools, not committed to one. See `content-system/PROCESS_MAP.md` for the full comparison table. Three tools to test for winning-video analysis:
-1. **Gemini API** (near-free, ~$0.01/video) — call directly via `curl`/Bash using a `GEMINI_API_KEY` env var, no MCP needed. Use this as the default/cheap option.
+1. **Gemini API** (near-free, ~$0.01/video) — call directly via `curl`/Bash. The key lives in `.env` (git-ignored, never commit it) — load it with `export $(grep GEMINI_API_KEY .env)` or read the file directly before calling `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$GEMINI_API_KEY`. No MCP needed. **This is now the default analysis tool** — confirmed working and cheapest; try this before Higgsfield.
 2. **Higgsfield `video_analysis_create` + `video_analysis_status`** — already connected this session, no setup needed. Use this as the baseline you always have available.
 3. **OutlierKit** — purpose-built hook/curiosity-loop/emotional-trigger scoring, needs signup + MCP connection (~$49/mo). Only use once connected; ask the user if it's set up before assuming it isn't.
 Run the SAME video through more than one tool when comparing, and log each result — cost, a 1-5 analysis-quality judgment, and notes — as a new row in `content-system/05_tool_comparison.md` (Stage 1 table). Don't silently settle on one tool; the point right now is the comparison.
