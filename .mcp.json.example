@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "kie-ai": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@felores/kie-ai-mcp-server"
+      ],
+      "env": {
+        "KIE_AI_API_KEY": "your-kie-ai-key-here",
+        "KIE_AI_DB_PATH": "/home/user/jeantesting/content-system/pipeline-tools/kie-mcp.db"
+      }
+    }
+  }
+}

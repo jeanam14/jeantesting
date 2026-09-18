@@ -48,9 +48,13 @@ Est. cost per ~45s video on this pipeline: **~$5-15** (higher than the old budge
 | **Viewmax.io** | All-in-one: script→voice→scene→export bundle | $14–19/mo (Basic) to $49/mo (Creator+) | Has MCP, needs signup+key | Cheapest option; reviews flag weaker voice/character-consistency — the reason it's not primary given the quality-first priority |
 | **OpenMontage** (+ similar: Automated-Video-Generator, Agnes, Open-Generative-AI) | Full open-source agentic pipeline, runs natively in Claude Code, also uses Remotion under the hood | Free core, pay only for premium providers plugged in | No signup — clone the repo | 59.5k stars, actively maintained; worth a real trial once the primary pipeline is validated, since it could absorb steps 2-4 into one orchestrated flow |
 
-## kie.ai setup (the one new thing needed for the primary pipeline)
-1. Sign up at kie.ai, generate an API key from the dashboard.
-2. Connect as MCP: `claude mcp add kie --env KIE_API_KEY=your_key -- npx -y @felores/kie-ai-mcp-server` (exact package/command to be confirmed once the key is in hand — community MCP servers for kie.ai exist and are documented at docs.kie.ai).
+## kie.ai setup — ✅ done (2026-09-18)
+Connected as a **project-scoped** MCP server (`claude mcp add -s project`), so it only applies inside this repo, not other unrelated Claude Code sessions/projects. Config lives in `.mcp.json` at the repo root — **git-ignored** (like `.env`) because it holds the raw key in plaintext; `.mcp.json.example` is committed as the template. Package: `@felores/kie-ai-mcp-server` (confirmed on npm, matches Kling/Veo3/ElevenLabs/etc. coverage). Tools appear as `mcp__kie-ai__...` once the MCP server starts. Note: this server requires host-approved `prepare_media_generation` → `submit_media_generation` for any paid generation — that's a safety default, not a bug, don't bypass it with `KIE_AI_ALLOW_DIRECT_GENERATION`.
+
+## Environment setup — ✅ done (2026-09-18)
+- **ffmpeg**: installed via `apt-get install ffmpeg` (needed system-wide — there's no way to sandbox a system package to one folder in this environment, but it's purely additive and doesn't touch any other session's files/config).
+- **Remotion project**: scaffolded self-contained under `content-system/pipeline-tools/remotion/` (its own `node_modules`, doesn't touch anything outside that folder).
+- **This is a disposable test environment** (per the user) — everything installed here (ffmpeg, the Remotion project, the kie.ai MCP config) is confined to this repo/container on purpose, so validating the pipeline here and later moving to a separate environment is a clean cutover, not an untangling job.
 
 ## Testing plan
 1. Take the **same finished script** from `03_scripts/`.

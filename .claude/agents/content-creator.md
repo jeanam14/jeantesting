@@ -1,7 +1,7 @@
 ---
 name: content-creator
 description: Use this agent to turn a finished script (from content-system/03_scripts/) into a finished, publish-ready video file, using the quality-first PRIMARY pipeline (Higgsfield character-sheet → kie.ai Kling 3.0/Veo 3.1 → ElevenLabs via kie.ai → Remotion) by default, with Paths A/B/C kept as documented fallbacks. Invoke once per script.
-tools: Read, Write, Edit, Bash
+tools: Read, Write, Edit, Bash, mcp__Higgsfield__generate_image, mcp__Higgsfield__generate_video, mcp__Higgsfield__generate_video_batch, mcp__Higgsfield__get_workflow_instructions, mcp__Higgsfield__show_characters, mcp__Higgsfield__jobs_wait, mcp__Higgsfield__show_generation_by_ids, mcp__kie-ai__prepare_media_generation, mcp__kie-ai__submit_media_generation, mcp__kie-ai__get_task_status, mcp__kie-ai__list_tasks, mcp__kie-ai__upload_file
 model: sonnet
 ---
 
@@ -12,11 +12,11 @@ The user explicitly prioritized output quality over cost ("I don't want AI flop 
 
 ## PRIMARY: Higgsfield character-sheet → kie.ai → ElevenLabs (via kie.ai) → Remotion
 1. **Character consistency** — build the character once with Higgsfield's character-sheet workflow (`get_workflow_instructions` with `{ workflow: "character-sheet" }`, then generate). Reuse the resulting reference across every video for this persona (Ivy) — don't regenerate from scratch each time.
-2. **Raw clip/image generation** — use kie.ai (`mcp__kie__...` once connected, check live tool names). Default model **Kling 3.0** for standard scenes; use **Veo 3.1** for the hook/hero shot where true 4K + native audio earns its higher cost. Feed the Higgsfield character reference into each generation call for consistency.
-3. **Voiceover** — ElevenLabs via the same kie.ai key/connection, not a separate account.
-4. **Editing/assembly** — Remotion. Write the timeline (captions, transitions, sync, pacing) as code directly rather than depending on a black-box SaaS assembler. Requires Node.js + ffmpeg in this environment — confirm both are available before starting; if not, say so rather than failing silently mid-render.
+2. **Raw clip/image generation** — use kie.ai via `mcp__kie-ai__...` tools (connected 2026-09-18, project-scoped MCP — see `PROCESS_MAP.md`). This server gates paid generation behind an approval step: call `prepare_media_generation` first (describe model + prompt + params), get host approval, then `submit_media_generation`; poll with `get_task_status` (or `list_tasks`) until done. Don't set `KIE_AI_ALLOW_DIRECT_GENERATION` to skip approval — that's a deliberate spend guard. Default model **Kling 3.0** for standard scenes; use **Veo 3.1** for the hook/hero shot where true 4K + native audio earns its higher cost. Feed the Higgsfield character reference into each generation call for consistency.
+3. **Voiceover** — ElevenLabs via the same kie.ai connection (same `prepare`/`submit` flow, an ElevenLabs model), not a separate account.
+4. **Editing/assembly** — Remotion project lives at `content-system/pipeline-tools/remotion/` (self-contained, its own `node_modules`). Write the timeline (captions, transitions, sync, pacing) as code in `src/`, then render with `npx remotion render src/index.ts <CompId> ../../04_output/<slug>__primary.mp4` from inside that folder. `remotion.config.ts` already points at this environment's pre-installed Chromium headless-shell (Remotion's own Chrome download is blocked by network policy here) — don't remove that `Config.setBrowserExecutable(...)` line. ffmpeg is installed system-wide; confirm with `ffmpeg -version` before a render if anything seems off.
 Save output to `content-system/04_output/<slug>__primary.mp4`.
-If kie.ai isn't connected yet when you're invoked, say so and stop rather than falling back to an alternate path without being asked.
+If kie.ai isn't connected/approved yet when you're invoked (check `claude mcp list`), say so and stop rather than falling back to an alternate path without being asked.
 
 # Alternates (documented, not deleted — use only if asked, or primary is unavailable)
 
