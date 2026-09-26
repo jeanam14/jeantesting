@@ -1,11 +1,12 @@
 # Onboarding, login, security levels and recovery
 
-Status: **proposed (P4, P13, P14)**. Builds on founder decision D6.
+Status: security levels **decided (D13)**; the onboarding flow (P13, P14, P15) is **proposed**. Builds on
+founder decision D6.
 
 ## 1. Who handles login?
 
 **Privy handles both login and the wallet, in one step.** When a user verifies their phone
-number with Privy's code (SMS or WhatsApp), Privy logs them in *and* creates or unlocks their
+number with Privy's code, Privy logs them in *and* creates or unlocks their
 wallets (EVM for Ethereum + Polygon, Solana, Bitcoin). There is no separate "Jokko login"
 behind it.
 
@@ -40,8 +41,19 @@ ID".
 1. **Welcome** (French by default in UEMOA/CEMAC, based on phone language) → "Créer un compte" /
    "Se connecter".
 2. **Phone number** (country picker, defaults from the SIM/locale) + checkbox accepting Terms,
-   Privacy Policy and risk summary (versions recorded) + "I am 18 or older" → choose **WhatsApp**
-   or **SMS** for the code → enter the 6-digit code. Wallets are created silently at this point.
+   Privacy Policy and risk summary (versions recorded) + "I am 18 or older" + optional referral
+   code (pre-filled from an invite link) → receive the code → enter the 6-digit code. Wallets are
+   created silently at this point.
+
+   > **Channel decision needed (O12):** Privy allows **either SMS or WhatsApp** for login codes,
+   > not both, for the whole account, and **the choice cannot be changed later**.
+   > Recommendation (P15): **SMS through Jokko's own Twilio account** (Privy's "bring your own
+   > Twilio", required anyway for African numbers). Why: it works for every user, including
+   > people without WhatsApp; the message shows Jokko's sender name; we control fraud protection
+   > and country coverage. WhatsApp remains our channel for claim links, reminders and
+   > notifications. Privy requires its **Scale or Enterprise** plan for both international SMS
+   > and WhatsApp.
+
    If the number already has an account, this is simply a login.
 3. **Name** (first + last). Shown to people you pay and who pay you (chat threads), and used on
    receipts.
@@ -65,8 +77,8 @@ tops up or withdraws (per the spec).
 ## 4. Security levels and thresholds (answers "what amounts trigger extra security?")
 
 Thresholds are in FCFA (≈ USD at about 565 FCFA per dollar; the exact rate moves with EUR/USD).
-They live in server configuration so they can be tuned without an app release. The values below
-are a starting point to adjust with real usage data.
+They live in server configuration so they can be tuned without an app release. **Accepted by the
+founder (D13), without any waiting period after a new-device login.**
 
 | Level | Setup | Required when… | Prompt style |
 |---|---|---|---|
@@ -75,9 +87,6 @@ are a starting point to adjust with real usage data.
 | **3 — Maximum** | + cloud backup (iCloud on iOS / Google Drive on Android, availability on Expo Android to confirm with Privy) | Balance ≥ **1,000,000 FCFA** (~$1,770): strongly recommended | Persistent card in Settings → Security |
 
 **Extra rules:**
-- **New phone, no passkey yet:** sends above **100,000 FCFA** are held for **24h** after logging
-  in on a new device. Users with a passkey skip the wait, because the passkey already proves it's
-  them. (This rule is enforced in our app. The passkey is the protection Privy itself enforces.)
 - **Any single send ≥ 500,000 FCFA:** an extra confirmation screen showing the recipient's name
   or full address and the amount.
 - **Every new-device login:** email alert (if an email is linked) + push to the other devices.

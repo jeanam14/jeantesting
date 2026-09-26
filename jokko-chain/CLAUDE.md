@@ -80,6 +80,14 @@ Do not violate them even if a feature would be easier to build otherwise:
    uses **self-custodial embedded wallets only** — flipping this setting, even accidentally,
    turns the wallet custodial and breaks the entire non-custodial/not-a-money-transmitter position
    this project is built on.
+7. **Jokko fees are never collected by holding user funds** (D17). A Jokko commission is either
+   (a) an explicit extra transfer to a Jokko fee address *inside the transaction the user signs*,
+   or (b) added and collected by the provider (ramp partner fee, LI.FI integrator fee, Everstake
+   revenue share) and paid out to Jokko. The app verifies the fee amount and destination before
+   signing. Details: `docs/09-fees-and-referrals.md`.
+8. **Company money and customer money never mix.** Jokko's own wallets (fee treasury — multisig;
+   rewards wallet for referral payouts — capped hot wallet) hold only company funds. They never
+   receive, route, or hold customer funds.
 
 **Note on naming:** "Bridge" (the Stripe company, our fiat ramp provider) and "bridging" (moving
 crypto assets between chains, e.g. Layerswap's job) are unrelated despite the shared word. Bridge
@@ -90,17 +98,20 @@ functionality.
 
 ## Chains and capability matrix
 
-Wallet creation covers 4 chains via Privy. Feature availability differs per chain — **do not
-build UI that implies a feature exists where the underlying protocol doesn't support it**:
+Updated 2026-09-26 (D14, D15, D16). Six networks at launch; one EVM wallet covers Ethereum,
+Polygon and BNB Chain (same address). Feature availability differs per network — **do not build UI
+that implies a feature exists where the underlying protocol doesn't support it**:
 
-| Chain    | Wallet | Stake (Everstake) | Swap/Bridge (Layerswap) | Borrow (Aave V3) | Card spend (Immersve/Rain) |
-|----------|--------|--------------------|--------------------------|-------------------|------------------------------|
-| Ethereum | ✅     | ✅                 | ✅                       | ✅                | ✅ |
-| Polygon  | ✅     | ✅                 | ✅                       | ✅                | ✅ |
-| Solana   | ✅     | ✅                 | ✅ (as bridge leg)       | ❌ not deployed   | ❌ not supported — convert to an EVM asset first |
-| Bitcoin  | ✅     | ❌ no PoS          | ✅ (as bridge leg)       | ❌ no smart contracts | ❌ not supported — convert to an EVM asset first |
+| Network (user label) | Wallet | Gasless | Stake (Everstake) | Swap (LI.FI) | Borrow (Aave V3, after launch) | Card spend (after launch) |
+|---|---|---|---|---|---|---|
+| Ethereum (ERC20) | ✅ | ✅ EIP-7702 | ✅ ETH | ✅ | ✅ | ✅ |
+| Polygon | ✅ | ✅ EIP-7702 | ⏸ supported, **not shown at launch** (POL staking happens on Ethereum) | ✅ | ✅ | ✅ |
+| BNB Chain (BEP20) | ✅ (same EVM address) | ✅ EIP-7702 | ❌ not in scope | ✅ | ✅ (Aave V3 is deployed on BNB Chain) | ✅ Immersve lists BNB Chain |
+| Solana | ✅ | ✅ Kora fee relayer | ✅ SOL | ✅ | ❌ not deployed | ❌ convert to an EVM asset first |
+| Tron (TRC20) | ⚠ pending Privy confirmation (O1) | ⚠ only via energy delegation/rental (costly) | ❌ | ✅ | ❌ | ❌ convert first |
+| Bitcoin | ✅ | ❌ always pays a small BTC fee | ❌ no PoS | ✅ (via THORChain) | ❌ no smart contracts | ❌ convert first |
 
-UI implication: hide the Stake tab for Bitcoin, hide the Borrow tab for Solana and Bitcoin.
+UI implication: staking shows ETH and SOL only at launch; Borrow only lists EVM networks.
 Store this as config (`chain_capabilities` table or static map), not hardcoded per-screen logic.
 
 ---
@@ -360,7 +371,7 @@ This app will grow features that aren't decided yet. Build accordingly, not just
 - [ ] Confirm IvoryPay and Fonbnk actual XOF/XAF country coverage (replaces earlier Yellow Card/Transak assumption in compliance drafts) — Fonbnk's public docs list Senegal + Côte d'Ivoire; XAF and IvoryPay still unconfirmed → questions in `docs/08-provider-questions.md`
 - [ ] Address screening provider decision (Chainalysis / TRM / Elliptic) — proposal: Chainalysis free sanctions API at launch, full KYT before scale (`docs/05-providers-and-tools.md`)
 - [x] Feature order for v1 — **decided (D1):** launch = top-up/withdrawal, send/receive, swap, staking (behind a flag)
-- [ ] Referral program — in v1 scope or later? (existing build already has a Referral entry in Settings)
+- [x] Referral program — **decided (D22):** at launch; referrer earns $5 in USDC when the invited friend tops up (configurable)
 - [ ] App bundle identifier (iOS + Android) — proposal: `com.jokkochain.app` (+ `.dev` / `.staging` suffixes per environment)
 - [x] Registered entity — **decided (D4):** Jokko Chain SA, Dakar, Senegal (Apple org enrollment needs its D-U-N-S number)
 - [x] Same-chain swap — **decided (D2):** consolidate on LI.FI
@@ -371,7 +382,13 @@ This app will grow features that aren't decided yet. Build accordingly, not just
 - [ ] Pick one card on-ramp: Transak, MoonPay, Ramp Network, or Banxa
 - [ ] Card issuing provider: confirm Immersve or Rain's UEMOA/CEMAC coverage (best fit — wallet-linked, real-time crypto spend), vs UPay's white-label availability (unconfirmed), vs building on Union54 (non-crypto rails, more build work)
 - [ ] Business account ("Jokko for Business") scope — not yet defined beyond a waitlist
-- [ ] **New:** wallet type — plain wallet vs ERC-4337 smart account vs EIP-7702 (recommended) → `docs/00-decision-log.md` P1
-- [ ] **New:** onboarding flow + security-level thresholds → `docs/03-onboarding-and-recovery.md`
-- [ ] **New:** hosting — AWS from day one (recommended) vs Fly/Railway MVP → `docs/01-architecture.md`
+- [x] Wallet type — **decided (D14):** EIP-7702
+- [x] Security-level thresholds — **decided (D13)**, without a new-device waiting period
+- [x] Hosting + tools — **decided (D18):** AWS Paris + the list in `docs/05-providers-and-tools.md`
+- [x] Networks — **decided (D15):** + BNB Chain (BEP20) and Tron (TRC20, pending Privy)
+- [x] Jokko commissions on every product — **decided (D17)** → `docs/09-fees-and-referrals.md`
+- [ ] **New — blocking Privy setup:** login codes by SMS or WhatsApp (Privy allows one only, permanently) → O12, recommendation P15 (SMS via our own Twilio)
+- [ ] **New:** Privy plan — Scale or Enterprise needed for African SMS / WhatsApp login
+- [ ] **New:** fee levels per product (business setting, in admin) → O13
+- [ ] **New:** onboarding flow details (P13, P14) and bottom navigation (P10) → confirm
 - [ ] **New:** legal opinion from Senegalese counsel on PSAV status under the UEMOA uniform AML law → `docs/06-compliance-and-marketing.md`

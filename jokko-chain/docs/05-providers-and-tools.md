@@ -1,7 +1,10 @@
 # Providers, tools and platforms
 
-Status legend: **Decided** · **Proposed** (engineering recommendation) · **Open** (needs
-founder or provider input). Every provider sits behind an adapter so it can be replaced.
+> **2026-09-26: the founder accepted this list (D18).** Every row marked "Proposed" below is
+> now **decided** unless it says "Open". The labels are kept to show where each choice came from.
+
+Status legend: **Decided** · **Proposed** (engineering recommendation, accepted via D18) ·
+**Open** (needs founder or provider input). Every provider sits behind an adapter so it can be replaced.
 Public facts below were checked on 2026-09-26. Anything that affects money or compliance must
 be confirmed in writing with the provider (`08-provider-questions.md`).
 
@@ -9,12 +12,13 @@ be confirmed in writing with the provider (`08-provider-questions.md`).
 
 | Need | Recommended | Alternatives | Status | Notes |
 |---|---|---|---|---|
-| Login + wallets (keys) | **Privy** | — | Decided | Self-custodial embedded wallets, TEE + key sharding. SMS and **WhatsApp** OTP login. Passkey / TOTP wallet MFA. Expo SDK supports EVM, Solana and **Bitcoin** embedded wallets. International SMS may require the Enterprise plan (O1). Pregeneration covers Ethereum + Solana wallets |
-| EVM gasless + batching (EIP-7702) | **Alchemy** (Gas Manager + bundler + audited 7702 delegate) | ZeroDev, Pimlico, Biconomy | Proposed (P1) | Alchemy also covers EVM data (below) → fewer vendors |
+| Login + wallets (keys) | **Privy** (**Scale or Enterprise plan**) | — | Decided | Self-custodial embedded wallets, TEE + key sharding. Login by SMS **or** WhatsApp (only one, account-wide, permanent: O12). **African numbers need "bring your own Twilio"** (Scale/Enterprise). Passkey / TOTP wallet MFA. Expo SDK supports EVM, Solana and **Bitcoin** embedded wallets; **Tron** support announced 2026-09-23, in-app user wallets to confirm (O1). Pregeneration covers Ethereum + Solana wallets. Custom email sender = Enterprise only |
+| EVM gasless + batching (EIP-7702) | **Alchemy** (Gas Manager + bundler + audited 7702 delegate) | ZeroDev, Pimlico, Biconomy | Decided (D14) | Ethereum, Polygon, BNB Chain (all support 7702). If Alchemy doesn't sponsor on BNB Chain, use Pimlico/ZeroDev there behind the same adapter |
+| Tron fees | **Energy**: Jokko stakes TRX and delegates energy, or rents energy per transfer | Energy rental marketplaces | Proposed | Without energy, a USDT transfer burns ~$2–4 of TRX (2026). Fee shown up front; see `01` §6 |
 | Solana gasless | **Kora** (Solana Foundation fee relayer), self-hosted, KMS signer | Custom relayer | Proposed | Only ever the fee payer; strict transaction validation |
-| RPC (primary) | **QuickNode** (Ethereum, Polygon, Solana, Bitcoin) | — | Decided (spec) | One vendor for all four chains |
-| RPC (failover) | **Alchemy** (EVM), **Helius** (Solana) | Infura, Triton | Proposed | An RPC outage must not stop sends |
-| Transaction history + incoming alerts | **Alchemy** Notify + Transfers API (EVM), **Helius** webhooks (Solana), **QuickNode** Bitcoin (Blockbook add-on or Streams) | Moralis, GoldRush (Covalent), self-hosted Esplora for BTC | Proposed | Feeds `transactions`, threads and "you received money" pushes |
+| RPC (primary) | **QuickNode** (Ethereum, Polygon, BNB Chain, Solana, Tron, Bitcoin) | — | Decided (spec) | One vendor for all networks. Confirm Tron + BNB Chain endpoints on our plan |
+| RPC (failover) | **Alchemy** (EVM), **Helius** (Solana), **TronGrid** (Tron, official) | Infura, Triton | Proposed | An RPC outage must not stop sends |
+| Transaction history + incoming alerts | **Alchemy** Notify + Transfers API (EVM, incl. BNB Chain if covered, else QuickNode Streams), **Helius** webhooks (Solana), **TronGrid** / QuickNode (Tron), **QuickNode** Bitcoin (Blockbook add-on or Streams) | Moralis, GoldRush (Covalent), self-hosted Esplora for BTC | Proposed | Feeds `transactions`, threads and "you received money" pushes |
 | Bitcoin transaction building | **@scure/btc-signer** or **bitcoinjs-lib** (in-app), signed via Privy | — | Proposed | We select coins, estimate fees and build the transaction; Privy signs; we broadcast via QuickNode |
 | Prices | **CoinGecko** Pro API | CoinMarketCap; Chainlink on-chain feeds as sanity check | Proposed | Cached server-side; stale-price guard |
 | FX (USD↔FCFA) | **Fixed EUR peg** (1 EUR = 655.957 XOF/XAF) + EUR/USD from **ECB** daily reference or Open Exchange Rates (intraday) | — | Proposed | No FCFA market feed needed thanks to the peg |
@@ -23,8 +27,8 @@ be confirmed in writing with the provider (`08-provider-questions.md`).
 
 | Need | Recommended | Alternatives | Status | Notes |
 |---|---|---|---|---|
-| Swap (same-chain + cross-chain, incl. BTC) | **LI.FI** | Layerswap (kept as an adapter option) | Decided (D2) | Native BTC routes via THORChain. Integrator fee possible. Exact-amount approvals only |
-| Staking | **Everstake** | — | Decided (spec) | ETH pooled staking minimum is now **0.01 ETH** (was 0.1; the existing screen's "Min 0.1 ETH" is outdated, so the app must read minimums from the provider). SOL at launch; POL later (P5) |
+| Swap (same-chain + cross-chain, incl. BTC, Tron) | **LI.FI** | Layerswap (kept as an adapter option) | Decided (D2) | Native BTC routes via THORChain; Tron supported. **Jokko's swap commission = LI.FI integrator fee** (% taken in LI.FI's fee contract, withdrawn by Jokko; `09`). Exact-amount approvals only |
+| Staking | **Everstake** | — | Decided (spec) | ETH pooled staking minimum is now **0.01 ETH** (was 0.1; the existing screen's "Min 0.1 ETH" is outdated, so the app must read minimums from the provider). **ETH + SOL at launch (D16)**; POL later |
 | Fiat ramp XOF/XAF (mobile money) | **Fonbnk**, **IvoryPay** | — | Open (O2, O3) | Fonbnk's public docs list Senegal and Côte d'Ivoire and settlement on Polygon / Ethereum / Solana among others. XAF countries and IvoryPay coverage still unconfirmed |
 | Fiat ramp USD/EUR (diaspora) | **Bridge** | — | Decided (spec) | Confirm KYB for a Senegalese SA |
 | Card on-ramp | One of **Transak / MoonPay / Ramp / Banxa** | — | Open (O6) | Pick on: SN/CI/CM card acceptance, USDC-on-Polygon delivery, fees, French KYC flow, webhooks |
@@ -52,7 +56,7 @@ be confirmed in writing with the provider (`08-provider-questions.md`).
 
 | Need | Recommended | Alternatives | Status | Notes |
 |---|---|---|---|---|
-| Login codes (SMS / WhatsApp) | **Privy** (built in) | — | Proposed (P14) | Confirm country coverage + fraud controls (O1) |
+| Login codes (SMS **or** WhatsApp, O12) | **Privy**, delivered through **Jokko's own Twilio Verify account** ("bring your own Twilio") | — | Proposed (P14, P15) | Our sender name, our fraud rules (Fraud Guard, geo-permissions), carrier costs billed to our Twilio |
 | Claim links, reminders, SMS/WhatsApp alerts | **Twilio** (WhatsApp Business + SMS) | **Infobip** or **Africa's Talking** as fallback for regional delivery | Decided (spec) + Proposed fallback | Sender ID registration per country |
 | Push | **FCM** (Android) + **APNs** (iOS), tokens via `expo-notifications` | Expo Push Service, OneSignal | Proposed | Sent from our workers |
 | Transactional email | **Amazon SES** | Postmark, Resend | Proposed | SPF / DKIM / DMARC on `jokkochain.com` (also protects against phishing that impersonates us) |
@@ -69,14 +73,14 @@ be confirmed in writing with the provider (`08-provider-questions.md`).
 | Queue / jobs | **BullMQ** on Redis + outbox table | AWS SQS | Proposed | — |
 | Secrets | **AWS Secrets Manager** | Doppler | Proposed | Never `.env` in git |
 | Errors | **Sentry** (EU data region) | — | Decided (spec) | Personal data scrubbed |
-| Logs / metrics / traces | **Grafana Cloud** or **Datadog**, via OpenTelemetry | — | Open | Cost vs features |
+| Logs / metrics / traces | **Grafana Cloud**, via OpenTelemetry | Datadog | Proposed | Lower cost at our scale; OpenTelemetry keeps switching cheap |
 | Uptime + status page | **Better Stack** | Statuspage | Proposed | — |
 | Product analytics | **PostHog** (EU cloud) | — | Decided (spec) | No personal data; consent-aware |
-| Reporting / list builder / exports | **Metabase** (self-hosted, read replica) | Retool, Looker Studio | Proposed | See `01` §10 |
-| Admin console | Custom (**Next.js**) in this monorepo | Retool, Forest Admin | Proposed | Security and audit needs outgrow no-code tools |
+| Admin dashboard (one tool, D19) | Custom (**Next.js**) in this monorepo, with **Metabase** charts embedded (signed, read-only) | Retool, Forest Admin | Decided (D19) | List builder + exports built natively (consent, masking, export log). See `01` §10 |
 | Mobile builds / releases | **Expo EAS** Build + Submit (+ Update with code signing, or disabled in prod) | — | Decided (spec) | — |
 | CI/CD | **GitHub Actions** | — | Decided (spec) | Root workflow filtered to `jokko-chain/**` |
 | Feature flags | Own Postgres tables | PostHog flags | Decided (spec) | Kill switches included |
+| Referral attribution | Own referral codes + deep links; **Google Play Install Referrer** (Android) to pre-fill codes | Branch, AppsFlyer | Proposed | Avoids another tracking vendor at launch; add an attribution tool later if paid campaigns need it |
 | Translations | **i18next** + JSON in repo | Lokalise, Crowdin (when translators join) | Proposed | French default |
 | Design | **Figma** (source of truth for tokens) | — | — | Current colours are sampled from screenshots |
 

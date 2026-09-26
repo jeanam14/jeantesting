@@ -1,6 +1,6 @@
 # Architecture
 
-Status: **proposed** (no code yet). IDs like D5 / P1 refer to `00-decision-log.md`.
+Status: **agreed direction** (no code yet). IDs like D5 / P1 refer to `00-decision-log.md`.
 
 ## 1. Principles
 
@@ -104,9 +104,10 @@ recommends AWS from the start.
 - Each environment is a separate AWS account (AWS Organizations), so a mistake in dev cannot
   touch prod.
 
-## 6. Wallet type (P1) — plain wallet vs smart account vs EIP-7702
+## 6. Wallet type — **decided: EIP-7702 (D14)**
 
-Applies to Ethereum + Polygon only. Solana and Bitcoin don't have this choice.
+Applies to EVM networks (Ethereum, Polygon, BNB Chain, all of which support EIP-7702). Solana,
+Bitcoin and Tron don't have this choice. The comparison is kept for the record.
 
 | | Plain wallet (EOA) | Smart account (ERC-4337) | Plain wallet + EIP-7702 (**recommended**) |
 |---|---|---|---|
@@ -130,17 +131,24 @@ Applies to Ethereum + Polygon only. Solana and Bitcoin don't have this choice.
   pinned, audited delegate address and refuses any other.
 
 **Setup:** Privy embedded wallet → EIP-7702 delegation to an audited implementation, via
-**Alchemy** (Gas Manager + bundler) or ZeroDev. The sponsorship policy only allows allowlisted
+**Alchemy** (Gas Manager + bundler), or ZeroDev/Pimlico on any network Alchemy doesn't cover. The sponsorship policy only allows allowlisted
 contracts and methods, with per-user caps (see `02-security.md`). Before building, confirm with
 Privy that EIP-7702 signing is supported in the Expo SDK (O1).
 
 - **Solana:** gas sponsored by **Kora** (the Solana Foundation's fee relayer), run by us with a
   KMS-held fee-payer key that is only ever a fee payer.
 - **Bitcoin:** no gasless option. Every send pays a small network fee, shown up front.
+- **Tron:** no contract wallets. Fees are paid in "energy"; without it a USDT transfer burns
+  roughly $2–4 of TRX (2026). Gas sponsorship is possible by delegating or renting energy
+  (Jokko stakes TRX or rents energy per transfer), but it's expensive. At launch the fee is shown
+  up front and covered by the send amount/Jokko fee (`09-fees-and-referrals.md`). The main
+  recommended use of Tron is **receiving** USDT (e.g. from Binance P2P), then consolidating to
+  Polygon for everyday use.
 
 ## 7. Networks and assets (D7, D8, P6, P7)
 
-**Supported networks at launch:** Ethereum, Polygon, Solana, Bitcoin.
+**Supported networks at launch (D15):** Ethereum, Polygon, BNB Chain, Solana, Bitcoin, and Tron
+(Tron subject to Privy confirming in-app Tron wallets, O1).
 
 **Labels shown to users:**
 
@@ -148,7 +156,9 @@ Privy that EIP-7702 signing is supported in the Expo SDK (O1).
 |---|---|---|
 | Polygon | **Polygon** | USDC, USDT, POL |
 | Ethereum | **Ethereum (ERC20)** | ETH, USDC, USDT |
+| BNB Chain | **BNB Chain (BEP20)** | BNB, USDT, USDC |
 | Solana | **Solana** | SOL, USDC, USDT |
+| Tron | **Tron (TRC20)** | TRX, USDT |
 | Bitcoin | **Bitcoin** | BTC |
 
 **Asset list (home screen):**
@@ -167,15 +177,16 @@ Privy that EIP-7702 signing is supported in the Expo SDK (O1).
 | Another Jokko user (by phone or contact) | **No choice shown.** The app sends on the cheapest network where the sender has funds (normally Polygon). The recipient just sees "USDC". |
 | External address | Ask **which network the recipient uses**. Every option shows its live fee in FCFA. **Recommended** = cheapest suitable network (Polygon in almost all cases, D8). Warn when the fee is over 5% of the amount. If the address format doesn't match the network (e.g. a Bitcoin address on Polygon), block the send. |
 
-**Receive screen:** one address per network family: EVM (shared by Ethereum and Polygon),
-Solana, Bitcoin. A clear line on each says "Only send USDC/USDT/POL on **Polygon** or
-**Ethereum** to this address".
+**Receive screen:** the user picks the asset and network first, then sees the matching address.
+EVM (shared by Ethereum, Polygon and BNB Chain), Solana, Tron and Bitcoin each have their own
+address. A clear line always states the network, e.g. « Envoyez uniquement de l'USDT sur
+**Tron (TRC20)** à cette adresse ».
 
 **Wrong-network safety net:** because the EVM address is the same on every EVM network, funds
-sent on BNB Chain, Base or Arbitrum arrive at an address the user owns, but the app won't show
-them. A background check watches those networks for our users' addresses and shows "We found
-funds on BNB Chain", then helps move them. Adding a full EVM network later (e.g. BNB Chain, O10)
-is mostly configuration. Tron (TRC20) would need a new wallet type and is a separate decision.
+sent on an unsupported EVM network (e.g. Base, Arbitrum) arrive at an address the user owns,
+but the app won't show them. A background check watches the most common ones for our users'
+addresses and shows « Nous avons trouvé des fonds sur Base », then helps move them. Adding
+another EVM network later is mostly configuration.
 
 ## 8. Money handling (non-negotiable)
 
@@ -199,8 +210,9 @@ borrow) goes through the same pipeline in `packages/core`:
 validate (address format, network match, amount, limits)
   → screen (sanctions / risk, adapter; stub until the provider is chosen)
   → build (adapter returns an UNSIGNED transaction or intent)
-  → verify (the app checks destination, amount, token, spender, and approval amount inside the
-            built transaction match what the user asked for; any mismatch → abort)
+  → verify (the app checks destination, amount, token, spender, approval amount, and the Jokko
+            fee (amount + fee address) inside the built transaction match what the user asked
+            for and was quoted; any mismatch → abort)
   → simulate (dry-run; Privy/Blockaid scan where available)
   → preview (fees in FCFA, network, recipient, total; clear confirmation copy)
   → authorise (biometric / passcode; Privy MFA if enrolled)
@@ -212,11 +224,14 @@ The **verify** step matters most. Even if our backend or a provider API is compr
 returns a malicious transaction, the app refuses to sign anything that doesn't match the user's
 intent.
 
-## 10. Admin console and reporting (D11)
+## 10. Admin dashboard — one tool (D11, D19)
 
-**Two tools, different jobs.**
+**One dashboard, one login**, with sections per team. Under the hood it's our own web app
+(`apps/admin`). Charts can be rendered by embedded Metabase panels (signed, read-only) so we
+don't rebuild a charting engine. List building and exports are built in our own code, because
+they must enforce consent, masking and export logging.
 
-**1. Admin console (custom, `apps/admin`)** for operations, support and compliance:
+**Operations, support and compliance sections:**
 - Login via Google Workspace SSO + hardware security key. Reachable only through a private
   network or zero-trust proxy, never on the public internet.
 - Roles: `support`, `compliance`, `marketing`, `finance`, `admin`. Each role sees only what it
@@ -224,14 +239,17 @@ intent.
   reason.
 - Views: user profile and security level, wallets and addresses, transaction history,
   ramp/swap/stake sessions and their provider status, phone-send invites and refunds, screening
-  alerts, webhook log, notification log, feature flags and kill switches, app-version gating.
-- Sensitive actions (kill switch, flag changes, blocking app access for a sanctioned user)
-  need a **second approver** (four-eyes). Every action goes into the append-only `audit_log`.
+  alerts, webhook log, notification log, feature flags and kill switches, app-version gating,
+  **fee schedules and fee revenue**, **referral programme settings, payouts and fraud review
+  queue** (`09-fees-and-referrals.md`).
+- Sensitive actions (kill switch, flag changes, fee schedule changes, referral programme
+  changes, rewards-wallet refills, blocking app access for a sanctioned user) need a **second
+  approver** (four-eyes). Every action goes into the append-only `audit_log`.
 - **What it cannot do:** move, freeze or recover user funds. That's by design (non-custodial),
   and support scripts must say so.
 
-**2. Reporting and marketing lists (Metabase, self-hosted)**
-- Connected to a **read replica** through database views. Marketing views exclude sensitive
+**Reporting and marketing sections (same dashboard):**
+- Reads from a **read replica** through database views. Marketing views exclude sensitive
   fields by design.
 - Dashboards: sign-ups and activation funnel, active wallets, volume by product, provider,
   country and network, ramp success/failure rates, swap and staking volumes, fee revenue,
@@ -250,8 +268,17 @@ intent.
 |---|---|---|
 | Push | Incoming/outgoing transactions, status changes, price alerts, security alerts | FCM (Android) + APNs (iOS) via `expo-notifications` tokens, sent from our workers |
 | In-app inbox | Same events, persistent | Our DB (`notifications` table) |
-| SMS / WhatsApp | Login codes (sent by **Privy**), phone-send claim links and reminders, critical security alerts | Privy for login OTP; **Twilio** (WhatsApp first, SMS fallback) for everything else |
+| SMS / WhatsApp | Login codes (triggered by **Privy**), phone-send claim links and reminders, referral invites, critical security alerts | Login codes: Privy, through **Jokko's own Twilio account** (P15). Everything else: **Twilio** (WhatsApp first, SMS fallback) |
 | Email (transactional) | Receipts, security alerts (new device, recovery change, key export), statements | Amazon SES (on AWS) with SPF/DKIM/DMARC on `jokkochain.com` |
+
+**Who is the visible sender?**
+
+| Message | Sent by | Visible sender |
+|---|---|---|
+| SMS login code | Privy, via **our** Twilio account (required for African numbers) | **Jokko**: our registered sender name ("JOKKO") / numbers, billed to our Twilio |
+| WhatsApp login code (only if O12 picks WhatsApp) | Privy | To confirm with Privy (O1) |
+| Email login / verification code | Privy | **Privy's address by default.** Custom sender, reply-to and Jokko branding are available on Privy's **Enterprise** plan only |
+| Everything else (alerts, receipts, claim links, referral, marketing) | Jokko | Always **Jokko**: `@jokkochain.com` emails, Jokko Twilio sender / WhatsApp Business account |
 | Email / SMS / push (marketing) | Campaigns, newsletters, lifecycle | Brevo (French, email + SMS + WhatsApp, GDPR-friendly) or Customer.io |
 
 Every send goes through the **outbox** (exactly one notification per event, even on retries)

@@ -4,8 +4,9 @@ Non-custodial mobile wallet for West/Central Africa (UEMOA/CEMAC) and the diaspo
 iOS + Android (Expo / React Native / TypeScript), plus a Node.js backend and an internal admin
 console. Built by **Jokko Chain SA** (Dakar, Senegal).
 
-> **Status (2026-09-26):** planning complete, founder decisions recorded, no application code
-> yet. Next step: Phase 1 foundations — see [`docs/07-roadmap.md`](docs/07-roadmap.md).
+> **Status (2026-09-26):** planning complete, founder decisions D1–D22 recorded, all
+> existing-build screenshots received, no application code yet. Next step: Phase 1 foundations —
+> see [`docs/07-roadmap.md`](docs/07-roadmap.md).
 
 ## Where to start
 
@@ -21,6 +22,7 @@ console. Built by **Jokko Chain SA** (Dakar, Senegal).
 | Check marketing wording and required disclaimers | [`docs/06-compliance-and-marketing.md`](docs/06-compliance-and-marketing.md) |
 | See build phases and launch scope | [`docs/07-roadmap.md`](docs/07-roadmap.md) |
 | Send questions to providers | [`docs/08-provider-questions.md`](docs/08-provider-questions.md) |
+| Understand Jokko's commissions and the referral programme | [`docs/09-fees-and-referrals.md`](docs/09-fees-and-referrals.md) |
 | See design references and colour tokens | [`design/README.md`](design/README.md) |
 
 ## Folder layout

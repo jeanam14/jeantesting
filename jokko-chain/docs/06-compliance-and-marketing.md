@@ -80,6 +80,8 @@ appellera jamais".
 | 12 | Age and eligibility | « Réservé aux personnes de 18 ans et plus. Service non disponible dans les pays sous sanctions. » | Onboarding |
 | 13 | Tax | « Vous êtes responsable de vos obligations fiscales. » | Terms, Help Center |
 | 14 | Marketing footer | « Les cryptoactifs comportent un risque de perte en capital. Les performances passées ne préjugent pas des performances futures. » | Every marketing asset mentioning rewards or prices |
+| 15 | Jokko fee | « Frais Jokko : X FCFA » shown as its own line, separate from network and provider fees. Never bundled into the exchange rate without saying so | Every confirmation screen (`09-fees-and-referrals.md`) |
+| 16 | Referral programme | « Invitez un ami : recevez 5 $ en USDC quand il recharge au moins 10 000 FCFA. Conditions : une récompense par ami vérifié, recharge sous 30 jours, limites applicables. » + link to the programme terms | Referral screen, invite messages, promo tile |
 
 ## 4. Screen-specific rules (from the existing build)
 
@@ -90,7 +92,24 @@ appellera jamais".
   - Remove "Restake" (it's a different, higher-risk product).
   - Show values in the user's display currency (the screen shows $ while Settings says XOF).
   - Tab name to be validated by counsel (P12).
-- **Promo tiles:** only approved copy from the `promo_tiles` table, each with its footnote.
+- **Home promo tiles** (`design/existing-build/home/top.webp`): the current staking tile says
+  « Gagne jusqu'à 6% par an — Investis tes cryptos aujourd'hui et commence à recevoir des
+  récompenses de manière passive ». Problems: "Investis", unqualified "jusqu'à 6%", "passive".
+  Replacement (draft): **« Récompenses de staking — Jusqu'à X %/an estimés\* sur ETH et SOL.
+  \*Variable, non garanti. »** Only approved copy from the `promo_tiles` table, each with its
+  footnote.
+- **"Instant transfer worldwide" banner** (home): removed per the spec. Its wording also
+  suggests a money-transfer service (§2).
+- **Card waitlist** (`design/existing-build/card-waitlist/default.webp`): « Use your Jokko Chain
+  card to pay directly with your cryptocurrencies… » is fine for a waitlist only if clearly
+  marked as future and conditional: add « Bientôt disponible, sous réserve de disponibilité dans
+  votre pays ».
+- **Borrow** (after launch; `design/existing-build/borrow/empty.webp`): the screen shows
+  collateral USDC on Ethereum and a loan in USDT on **Tron**. That pattern matches a *custodial*
+  lending service where you hand over your collateral, which the non-custodial rules forbid.
+  Our borrow feature (Aave V3) keeps collateral and loan on the same network, in the user's own
+  wallet. Borrow wording ("prêt", "APR", "LTV", liquidation) needs its own counsel review
+  before that feature ships.
 - **Home balance:** "≈" + indicative-value tooltip.
 - **Notification settings:** security alerts always on (P11). Marketing off by default ✓ (already
   the case in the existing build).
@@ -141,3 +160,7 @@ appellera jamais".
 9. EU diaspora: MiCA and French advertising rules. Can we serve and market to them, and how?
 10. Julaya options 1–3: regulatory consequence of each (the spec's open question).
 11. Apple/Google: which licences or letters to provide for the exchange-related features.
+12. Jokko's own fees on top of provider fees (D17): disclosure requirements, and whether charging
+    them changes the PSAV analysis (Q1).
+13. Referral rewards paid in USDC (D22): any declaration needed for promotional rewards, tax
+    treatment for Jokko and for the user, programme terms.
