@@ -54,7 +54,9 @@ export function formatAmount(
   const decimalSeparator = locale === 'fr' ? ',' : '.';
   const groupedWhole = whole.replace(/\B(?=(\d{3})+(?!\d))/g, group);
   const text =
-    paddedFraction.length > 0 ? `${groupedWhole}${decimalSeparator}${paddedFraction}` : groupedWhole;
+    paddedFraction.length > 0
+      ? `${groupedWhole}${decimalSeparator}${paddedFraction}`
+      : groupedWhole;
   return negative ? `\u2212${text}` : text;
 }
 

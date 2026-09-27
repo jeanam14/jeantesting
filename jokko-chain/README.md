@@ -10,21 +10,22 @@ console. Built by **Jokko Chain SA** (Dakar, Senegal).
 
 ## Where to start
 
-| If you want to… | Read |
-|---|---|
-| Know what's decided, proposed, or still open | [`docs/00-decision-log.md`](docs/00-decision-log.md) |
-| Understand the rules every change must follow | [`CLAUDE.md`](CLAUDE.md) |
-| See how the system fits together | [`docs/01-architecture.md`](docs/01-architecture.md) |
-| Understand the threat model and security controls | [`docs/02-security.md`](docs/02-security.md) |
-| See the sign-up, login and recovery design | [`docs/03-onboarding-and-recovery.md`](docs/03-onboarding-and-recovery.md) |
-| See every database table | [`docs/04-data-model.md`](docs/04-data-model.md) |
-| See every provider, tool and platform | [`docs/05-providers-and-tools.md`](docs/05-providers-and-tools.md) |
-| Check marketing wording and required disclaimers | [`docs/06-compliance-and-marketing.md`](docs/06-compliance-and-marketing.md) |
-| See build phases and launch scope | [`docs/07-roadmap.md`](docs/07-roadmap.md) |
-| Send questions to providers | [`docs/08-provider-questions.md`](docs/08-provider-questions.md) |
-| Understand Jokko's commissions and the referral programme | [`docs/09-fees-and-referrals.md`](docs/09-fees-and-referrals.md) |
-| Create the accounts needed to build (Privy, Expo, Apple…) | [`docs/10-setup-checklist.md`](docs/10-setup-checklist.md) |
-| See design references and colour tokens | [`design/README.md`](design/README.md) |
+| If you want to…                                           | Read                                                                         |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Resume the build where it stopped                         | [`docs/HANDOFF.md`](docs/HANDOFF.md)                                         |
+| Know what's decided, proposed, or still open              | [`docs/00-decision-log.md`](docs/00-decision-log.md)                         |
+| Understand the rules every change must follow             | [`CLAUDE.md`](CLAUDE.md)                                                     |
+| See how the system fits together                          | [`docs/01-architecture.md`](docs/01-architecture.md)                         |
+| Understand the threat model and security controls         | [`docs/02-security.md`](docs/02-security.md)                                 |
+| See the sign-up, login and recovery design                | [`docs/03-onboarding-and-recovery.md`](docs/03-onboarding-and-recovery.md)   |
+| See every database table                                  | [`docs/04-data-model.md`](docs/04-data-model.md)                             |
+| See every provider, tool and platform                     | [`docs/05-providers-and-tools.md`](docs/05-providers-and-tools.md)           |
+| Check marketing wording and required disclaimers          | [`docs/06-compliance-and-marketing.md`](docs/06-compliance-and-marketing.md) |
+| See build phases and launch scope                         | [`docs/07-roadmap.md`](docs/07-roadmap.md)                                   |
+| Send questions to providers                               | [`docs/08-provider-questions.md`](docs/08-provider-questions.md)             |
+| Understand Jokko's commissions and the referral programme | [`docs/09-fees-and-referrals.md`](docs/09-fees-and-referrals.md)             |
+| Create the accounts needed to build (Privy, Expo, Apple…) | [`docs/10-setup-checklist.md`](docs/10-setup-checklist.md)                   |
+| See design references and colour tokens                   | [`design/README.md`](design/README.md)                                       |
 
 ## Folder layout
 

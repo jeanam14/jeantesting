@@ -5,7 +5,9 @@ import {
   formatRate,
   formatUnits,
   mulDiv,
+  multiplyDecimals,
   normalizeLocaleNumber,
+  parseJsonNumberText,
   parseRate,
   parseUnits,
   pow10,
@@ -38,7 +40,10 @@ describe('parseUnits', () => {
 
   it('rejects anything that is not a plain non-negative decimal', () => {
     for (const bad of ['', ' 1', '1 ', '1e5', '.5', '5.', '1.2.3', '0x10', 'abc', '1,5', '+1']) {
-      expect(codeOf(() => parseUnits(bad, 6)), bad).toBe('INVALID_AMOUNT');
+      expect(
+        codeOf(() => parseUnits(bad, 6)),
+        bad,
+      ).toBe('INVALID_AMOUNT');
     }
     expect(codeOf(() => parseUnits('-1', 6))).toBe('NEGATIVE_AMOUNT');
     expect(codeOf(() => parseUnits('1'.repeat(79), 0))).toBe('INVALID_AMOUNT');
@@ -63,9 +68,13 @@ describe('formatUnits', () => {
 
   it('round-trips with parseUnits for any amount and precision (property)', () => {
     fc.assert(
-      fc.property(fc.bigInt({ min: 0n, max: 2n ** 256n - 1n }), fc.integer({ min: 0, max: 18 }), (amount, decimals) => {
-        expect(parseUnits(formatUnits(amount, decimals), decimals)).toBe(amount);
-      }),
+      fc.property(
+        fc.bigInt({ min: 0n, max: 2n ** 256n - 1n }),
+        fc.integer({ min: 0, max: 18 }),
+        (amount, decimals) => {
+          expect(parseUnits(formatUnits(amount, decimals), decimals)).toBe(amount);
+        },
+      ),
       { numRuns: 500 },
     );
   });
@@ -143,5 +152,31 @@ describe('pow10', () => {
   it('computes powers of ten', () => {
     expect(pow10(0)).toBe(1n);
     expect(pow10(6)).toBe(1_000_000n);
+  });
+});
+
+describe('multiplyDecimals', () => {
+  it('multiplies exactly within the scale limit', () => {
+    const r = multiplyDecimals(parseRate('1.5'), parseRate('655.957'));
+    expect(formatRate(r)).toBe('983.9355');
+  });
+  it('truncates toward zero beyond maxScale', () => {
+    const r = multiplyDecimals(parseRate('0.333'), parseRate('0.333'), 4);
+    expect(formatRate(r)).toBe('0.1108');
+  });
+});
+
+describe('parseJsonNumberText', () => {
+  it.each([
+    ['0.9998', '0.9998'],
+    ['1e-7', '0.0000001'],
+    ['6.5E+4', '65000'],
+    ['42', '42'],
+    ['1.25e2', '125'],
+  ])('%s → %s', (input, expected) => {
+    expect(formatRate(parseJsonNumberText(input))).toBe(expected);
+  });
+  it.each(['-1', '0', 'abc', '1.', '.5', '1e400'])('rejects %s', (input) => {
+    expect(() => parseJsonNumberText(input)).toThrow(JokkoCoreError);
   });
 });

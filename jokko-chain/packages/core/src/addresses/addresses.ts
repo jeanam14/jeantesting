@@ -29,11 +29,7 @@ export type AddressValidation =
 
 /** Why an address was rejected. */
 export type AddressInvalidReason =
-  | 'EMPTY'
-  | 'WRONG_FORMAT'
-  | 'BAD_CHECKSUM'
-  | 'WRONG_ENVIRONMENT'
-  | 'UNSUPPORTED_TYPE';
+  'EMPTY' | 'WRONG_FORMAT' | 'BAD_CHECKSUM' | 'WRONG_ENVIRONMENT' | 'UNSUPPORTED_TYPE';
 
 const base58check = createBase58check(sha256);
 

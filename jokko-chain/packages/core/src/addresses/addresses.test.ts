@@ -42,8 +42,15 @@ describe('EVM addresses', () => {
   });
 
   it('rejects malformed input', () => {
-    for (const bad of ['0x123', '5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed', '0xZZaeb6053F3E94C9b9A09f33669435E7Ef1BeAed']) {
-      expect(validateAddress('evm', bad, 'mainnet')).toEqual({ valid: false, reason: 'WRONG_FORMAT' });
+    for (const bad of [
+      '0x123',
+      '5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed',
+      '0xZZaeb6053F3E94C9b9A09f33669435E7Ef1BeAed',
+    ]) {
+      expect(validateAddress('evm', bad, 'mainnet')).toEqual({
+        valid: false,
+        reason: 'WRONG_FORMAT',
+      });
     }
     expect(validateAddress('evm', '   ', 'mainnet')).toEqual({ valid: false, reason: 'EMPTY' });
   });
@@ -51,12 +58,16 @@ describe('EVM addresses', () => {
 
 describe('Tron addresses', () => {
   it('accepts a valid T-address and rejects a corrupted one', () => {
-    expect(validateAddress('tron', 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t', 'mainnet').valid).toBe(true);
+    expect(validateAddress('tron', 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t', 'mainnet').valid).toBe(
+      true,
+    );
     expect(validateAddress('tron', 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6u', 'mainnet')).toEqual({
       valid: false,
       reason: 'BAD_CHECKSUM',
     });
-    expect(validateAddress('tron', '0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed', 'mainnet').valid).toBe(false);
+    expect(
+      validateAddress('tron', '0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed', 'mainnet').valid,
+    ).toBe(false);
   });
 
   it('rejects a base58check payload with the wrong prefix', () => {
@@ -69,14 +80,22 @@ describe('Tron addresses', () => {
 
 describe('Solana addresses', () => {
   it('accepts 32-byte base58 public keys', () => {
-    expect(validateAddress('solana', 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', 'mainnet').valid).toBe(true);
-    expect(validateAddress('solana', '11111111111111111111111111111111', 'mainnet').valid).toBe(true);
+    expect(
+      validateAddress('solana', 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', 'mainnet').valid,
+    ).toBe(true);
+    expect(validateAddress('solana', '11111111111111111111111111111111', 'mainnet').valid).toBe(
+      true,
+    );
   });
 
   it('rejects wrong lengths and characters', () => {
     expect(validateAddress('solana', 'EPjFWdd5Aufq', 'mainnet').valid).toBe(false);
-    expect(validateAddress('solana', '0OIl0OIl0OIl0OIl0OIl0OIl0OIl0OIl', 'mainnet').valid).toBe(false);
-    expect(validateAddress('solana', '1111111111111111111111111111111111111111111', 'mainnet').valid).toBe(false);
+    expect(validateAddress('solana', '0OIl0OIl0OIl0OIl0OIl0OIl0OIl0OIl', 'mainnet').valid).toBe(
+      false,
+    );
+    expect(
+      validateAddress('solana', '1111111111111111111111111111111111111111111', 'mainnet').valid,
+    ).toBe(false);
   });
 });
 
@@ -118,24 +137,33 @@ describe('Bitcoin addresses', () => {
     const shortV0 = bech32.encode('bc', [0, ...bech32.toWords(new Uint8Array(10))]);
     expect(validateAddress('bitcoin', shortV0, 'mainnet').valid).toBe(false);
     const v2 = bech32m.encode('bc', [2, ...bech32m.toWords(program32)]);
-    expect(validateAddress('bitcoin', v2, 'mainnet')).toEqual({ valid: false, reason: 'UNSUPPORTED_TYPE' });
+    expect(validateAddress('bitcoin', v2, 'mainnet')).toEqual({
+      valid: false,
+      reason: 'UNSUPPORTED_TYPE',
+    });
     const shortV1 = bech32m.encode('bc', [1, ...bech32m.toWords(program20)]);
     expect(validateAddress('bitcoin', shortV1, 'mainnet').valid).toBe(false);
   });
 
   it('accepts legacy base58 addresses per environment', () => {
     // The genesis block coinbase address.
-    expect(validateAddress('bitcoin', '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', 'mainnet').valid).toBe(true);
+    expect(validateAddress('bitcoin', '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', 'mainnet').valid).toBe(
+      true,
+    );
     expect(validateAddress('bitcoin', '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', 'testnet')).toEqual({
       valid: false,
       reason: 'WRONG_ENVIRONMENT',
     });
     const testnetPayload = new Uint8Array(21).fill(1);
     testnetPayload[0] = 0x6f;
-    expect(validateAddress('bitcoin', base58check.encode(testnetPayload), 'testnet').valid).toBe(true);
+    expect(validateAddress('bitcoin', base58check.encode(testnetPayload), 'testnet').valid).toBe(
+      true,
+    );
     const unknownVersion = new Uint8Array(21).fill(1);
     unknownVersion[0] = 0x30;
-    expect(validateAddress('bitcoin', base58check.encode(unknownVersion), 'mainnet').valid).toBe(false);
+    expect(validateAddress('bitcoin', base58check.encode(unknownVersion), 'mainnet').valid).toBe(
+      false,
+    );
     expect(validateAddress('bitcoin', '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNb', 'mainnet')).toEqual({
       valid: false,
       reason: 'BAD_CHECKSUM',

@@ -35,12 +35,16 @@ describe('assetToFiat / fiatToAsset', () => {
 
   it('converting to fiat and back never creates value (property)', () => {
     fc.assert(
-      fc.property(fc.bigInt({ min: 0n, max: 10n ** 24n }), fc.integer({ min: 1, max: 10_000_000 }), (amount, priceMilli) => {
-        const price = parseRate((priceMilli / 1000).toFixed(3));
-        const fiat = assetToFiat(amount, 6, price, 'XOF');
-        const back = fiatToAsset(fiat, 'XOF', price, 6);
-        expect(back <= amount).toBe(true);
-      }),
+      fc.property(
+        fc.bigInt({ min: 0n, max: 10n ** 24n }),
+        fc.integer({ min: 1, max: 10_000_000 }),
+        (amount, priceMilli) => {
+          const price = parseRate((priceMilli / 1000).toFixed(3));
+          const fiat = assetToFiat(amount, 6, price, 'XOF');
+          const back = fiatToAsset(fiat, 'XOF', price, 6);
+          expect(back <= amount).toBe(true);
+        },
+      ),
     );
   });
 });
@@ -73,10 +77,18 @@ describe('formatting', () => {
   });
 
   it('formats token amounts with bounded decimals, rounding down', () => {
-    expect(formatAmount(250_000_000n, 6, { locale: 'fr', maxFractionDigits: 2, minFractionDigits: 2 })).toBe('250,00');
-    expect(formatAmount(1_234_567_890n, 6, { locale: 'fr', maxFractionDigits: 2 })).toBe(`1${NARROW_NBSP}234,56`);
-    expect(formatAmount(1_234_567_890n, 6, { locale: 'en', maxFractionDigits: 2 })).toBe('1,234.56');
-    expect(formatAmount(4_500_000_000_000_000n, 18, { locale: 'fr', maxFractionDigits: 4 })).toBe('0,0045');
+    expect(
+      formatAmount(250_000_000n, 6, { locale: 'fr', maxFractionDigits: 2, minFractionDigits: 2 }),
+    ).toBe('250,00');
+    expect(formatAmount(1_234_567_890n, 6, { locale: 'fr', maxFractionDigits: 2 })).toBe(
+      `1${NARROW_NBSP}234,56`,
+    );
+    expect(formatAmount(1_234_567_890n, 6, { locale: 'en', maxFractionDigits: 2 })).toBe(
+      '1,234.56',
+    );
+    expect(formatAmount(4_500_000_000_000_000n, 18, { locale: 'fr', maxFractionDigits: 4 })).toBe(
+      '0,0045',
+    );
     expect(formatAmount(-1_000_000n, 6, { locale: 'en', maxFractionDigits: 2 })).toBe('\u22121');
   });
 

@@ -189,7 +189,11 @@ export function networksInFamily(family: NetworkFamily): NetworkDefinition[] {
 }
 
 /** Builds the explorer link for a transaction on a network in an environment. */
-export function explorerTxUrl(key: NetworkKey, environment: ChainEnvironment, hash: string): string {
+export function explorerTxUrl(
+  key: NetworkKey,
+  environment: ChainEnvironment,
+  hash: string,
+): string {
   return NETWORKS[key].deployments[environment].explorerTxUrl.replace(
     '{hash}',
     encodeURIComponent(hash),

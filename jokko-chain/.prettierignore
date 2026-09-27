@@ -5,3 +5,5 @@ pnpm-lock.yaml
 design
 docs
 **/drizzle/meta
+# Founder spec: kept exactly as authored (prettier would re-wrap its tables).
+CLAUDE.md

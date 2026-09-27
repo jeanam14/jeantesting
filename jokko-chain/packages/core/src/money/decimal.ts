@@ -187,3 +187,47 @@ export function normalizeLocaleNumber(text: string, locale: 'fr' | 'en'): string
   const canonical = parts.length === 2 ? `${parts[0]}.${parts[1]}` : (parts[0] ?? '');
   return DECIMAL_PATTERN.test(canonical) ? canonical : null;
 }
+
+/**
+ * Multiplies two exact decimals (e.g. USD price × EUR/USD rate × XOF/EUR parity). The result is
+ * truncated (rounded toward zero) to at most `maxScale` decimal places so chained conversions
+ * cannot grow without bound. Truncation errs on the side of showing the user a slightly lower
+ * value, never a higher one.
+ */
+export function multiplyDecimals(a: ExactDecimal, b: ExactDecimal, maxScale = 18): ExactDecimal {
+  assertDecimals(maxScale);
+  let units = a.units * b.units;
+  let scale = a.scale + b.scale;
+  if (scale > maxScale) {
+    units /= pow10(scale - maxScale);
+    scale = maxScale;
+  }
+  return { units, scale };
+}
+
+const JSON_NUMBER = /^(\d+)(?:\.(\d+))?(?:[eE]([+-]?\d{1,3}))?$/;
+
+/**
+ * Converts the SOURCE TEXT of a positive JSON number (e.g. `"0.9998"`, `"1e-7"`, `"6.5E+4"`)
+ * into an exact decimal without ever going through a float. Providers such as price APIs send
+ * prices as JSON numbers; reading them with `JSON.parse` alone would silently turn them into
+ * floats, so adapters capture the source text instead (JSON.parse reviver `context.source`).
+ */
+export function parseJsonNumberText(text: string): ExactDecimal {
+  const match = JSON_NUMBER.exec(text);
+  if (!match) throw new JokkoCoreError('INVALID_RATE', `not a positive JSON number: "${text}"`);
+  const integer = match[1] ?? '';
+  const fraction = match[2] ?? '';
+  const exponent = Number(match[3] ?? '0');
+  let units = BigInt(`${integer}${fraction}`);
+  let scale = fraction.length - exponent;
+  if (scale < 0) {
+    units *= pow10(-scale);
+    scale = 0;
+  }
+  if (scale > MAX_DECIMALS) {
+    throw new JokkoCoreError('INVALID_RATE', 'number has too many decimal places');
+  }
+  if (units === 0n) throw new JokkoCoreError('INVALID_RATE', 'rate must be positive');
+  return { units, scale };
+}

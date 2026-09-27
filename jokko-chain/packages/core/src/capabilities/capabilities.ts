@@ -91,7 +91,5 @@ export function effectiveCapabilities(
 export function invalidEnableOverrides(
   overrides: readonly CapabilityOverride[],
 ): CapabilityOverride[] {
-  return overrides.filter(
-    (o) => o.enabled && !STATIC_CAPABILITIES[o.network][o.capability],
-  );
+  return overrides.filter((o) => o.enabled && !STATIC_CAPABILITIES[o.network][o.capability]);
 }

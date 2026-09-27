@@ -2,8 +2,8 @@
 # Everything is rooted in this folder so the project can move to its own repository unchanged
 # (see README.md → "Portability").
 packages:
-  - "apps/*"
-  - "packages/*"
+  - 'apps/*'
+  - 'packages/*'
 
 # --- Supply-chain hardening (docs/02-security.md, T4) ---------------------------------------
 # Record exact versions; the lockfile is the source of truth and is reviewed in every PR.
@@ -15,10 +15,13 @@ engineStrict: true
 minimumReleaseAge: 1440
 # pnpm 10 blocks dependency install scripts by default. Only these are allowed to run them,
 # each one reviewed: esbuild (used by drizzle-kit) downloads its platform binary.
+# Telemetry scripts are never allowed to run.
+ignoredBuiltDependencies:
+  - '@scarf/scarf'
 onlyBuiltDependencies:
   - esbuild
-  - "@swc/core"
+  - '@swc/core'
 
 # One @types/node version across the workspace (keeps vitest/vite from being installed twice).
 overrides:
-  "@types/node": "22.20.4"
+  '@types/node': '22.20.4'

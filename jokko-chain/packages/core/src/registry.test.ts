@@ -29,16 +29,29 @@ import {
 
 describe('networks', () => {
   it('lists the six launch networks (D15)', () => {
-    expect([...NETWORK_KEYS].sort()).toEqual(['bitcoin', 'bsc', 'ethereum', 'polygon', 'solana', 'tron']);
+    expect([...NETWORK_KEYS].sort()).toEqual([
+      'bitcoin',
+      'bsc',
+      'ethereum',
+      'polygon',
+      'solana',
+      'tron',
+    ]);
   });
 
   it('groups Ethereum, Polygon and BNB Chain under one EVM family', () => {
-    expect(networksInFamily('evm').map((n) => n.key).sort()).toEqual(['bsc', 'ethereum', 'polygon']);
+    expect(
+      networksInFamily('evm')
+        .map((n) => n.key)
+        .sort(),
+    ).toEqual(['bsc', 'ethereum', 'polygon']);
   });
 
   it('has unique EVM chain IDs per environment', () => {
     for (const env of ['mainnet', 'testnet'] as const) {
-      const ids = NETWORK_KEYS.map((k) => NETWORKS[k].deployments[env].evmChainId).filter((id) => id !== undefined);
+      const ids = NETWORK_KEYS.map((k) => NETWORKS[k].deployments[env].evmChainId).filter(
+        (id) => id !== undefined,
+      );
       expect(new Set(ids).size).toBe(ids.length);
     }
   });
@@ -50,7 +63,9 @@ describe('networks', () => {
   });
 
   it('builds explorer links and validates keys', () => {
-    expect(explorerTxUrl('polygon', 'testnet', '0xabc')).toBe('https://amoy.polygonscan.com/tx/0xabc');
+    expect(explorerTxUrl('polygon', 'testnet', '0xabc')).toBe(
+      'https://amoy.polygonscan.com/tx/0xabc',
+    );
     expect(isNetworkKey('polygon')).toBe(true);
     expect(isNetworkKey('arbitrum')).toBe(false);
     expect(() => getNetwork('arbitrum')).toThrow(JokkoCoreError);
@@ -81,9 +96,15 @@ describe('assets', () => {
   });
 
   it('finds allowlisted tokens by contract and ignores unknown ones', () => {
-    expect(findAssetByContract('ethereum', 'mainnet', '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48')?.id).toBe('usdc:ethereum');
-    expect(findAssetByContract('tron', 'mainnet', 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t')?.id).toBe('usdt:tron');
-    expect(findAssetByContract('polygon', 'mainnet', '0x000000000000000000000000000000000000dEaD')).toBeUndefined();
+    expect(
+      findAssetByContract('ethereum', 'mainnet', '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48')?.id,
+    ).toBe('usdc:ethereum');
+    expect(findAssetByContract('tron', 'mainnet', 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t')?.id).toBe(
+      'usdt:tron',
+    );
+    expect(
+      findAssetByContract('polygon', 'mainnet', '0x000000000000000000000000000000000000dEaD'),
+    ).toBeUndefined();
     expect(() => getAsset('doge:ethereum')).toThrow(JokkoCoreError);
   });
 });
@@ -125,7 +146,11 @@ describe('security levels (D13)', () => {
 
   it('prompts from 50 000 FCFA and requires a passkey to send from 250 000 FCFA', () => {
     expect(evaluateSecurity(49_999n, none).prompts).toEqual([]);
-    expect(evaluateSecurity(50_000n, none)).toEqual({ level: 1, prompts: ['add_passkey', 'add_email'], passkeyRequiredToSend: false });
+    expect(evaluateSecurity(50_000n, none)).toEqual({
+      level: 1,
+      prompts: ['add_passkey', 'add_email'],
+      passkeyRequiredToSend: false,
+    });
     expect(evaluateSecurity(250_000n, none).passkeyRequiredToSend).toBe(true);
     expect(evaluateSecurity(250_000n, level2).passkeyRequiredToSend).toBe(false);
     expect(evaluateSecurity(1_000_000n, level2).prompts).toEqual(['enable_backup']);
@@ -140,12 +165,17 @@ describe('security levels (D13)', () => {
 describe('phone numbers', () => {
   it('normalises Senegalese and Ivorian mobile numbers to E.164', () => {
     expect(parsePhoneNumber('77 123 45 67', 'SN', UEMOA_COUNTRIES).e164).toBe('+221771234567');
-    expect(parsePhoneNumber('+225 07 12 34 56 78', 'SN', UEMOA_COUNTRIES)).toMatchObject({ e164: '+2250712345678', country: 'CI' });
+    expect(parsePhoneNumber('+225 07 12 34 56 78', 'SN', UEMOA_COUNTRIES)).toMatchObject({
+      e164: '+2250712345678',
+      country: 'CI',
+    });
   });
 
   it('rejects invalid numbers and unsupported countries', () => {
     expect(() => parsePhoneNumber('123', 'SN', UEMOA_COUNTRIES)).toThrow(JokkoCoreError);
-    expect(() => parsePhoneNumber('+33 6 12 34 56 78', 'SN', UEMOA_COUNTRIES)).toThrow(/country not supported/);
+    expect(() => parsePhoneNumber('+33 6 12 34 56 78', 'SN', UEMOA_COUNTRIES)).toThrow(
+      /country not supported/,
+    );
   });
 
   it('masks all but the country code and last two digits', () => {

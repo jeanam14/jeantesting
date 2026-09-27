@@ -96,7 +96,10 @@ export const ASSETS: readonly AssetDefinition[] = [
     decimals: 18,
     isStablecoin: true,
     priceId: 'usd-coin',
-    review: { status: 'pending-review', source: 'https://bscscan.com/token/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d' },
+    review: {
+      status: 'pending-review',
+      source: 'https://bscscan.com/token/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',
+    },
   },
   {
     id: 'usdc:solana',
