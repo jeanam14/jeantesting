@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Envoyer — montant</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#041612}
+a{color:#C9F17B}a:hover{color:#DDF7A6}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 16px 20px 28px; display: flex; flex-direction: column; font-family: 'Plus Jakarta Sans', sans-serif; color: #FFFFFF; background: linear-gradient(180deg, #041612 0%, #0C1F16 55%, #13281B 100%)">
+<div style="display: flex; align-items: center; gap: 12px">
+<a href="SendRecipient.dc.html" aria-label="Retour" style="width: 44px; height: 44px; border-radius: 22px; background: #10241B; border: 1px solid #25402E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-sizing: border-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></a>
+<span style="width: 36px; height: 36px; border-radius: 18px; background: #16392A; color: #C9F17B; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800">MN</span>
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; font-weight: 600; color: #93A59B">Envoyer à</span><span style="font-size: 16px; font-weight: 800">Moussa Ndiaye</span></span>
+</div>
+
+<div style="padding-top: 36px; display: flex; flex-direction: column; align-items: center; gap: 8px">
+<span style="display: flex; align-items: baseline; gap: 8px"><span style="font-size: 48px; font-weight: 800; letter-spacing: -1px; font-variant-numeric: tabular-nums">10 000</span><span style="font-size: 22px; font-weight: 700; color: #C3D4C8">FCFA</span></span>
+<button type="button" style="height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid #2E4D36; background: #10241B; color: #B3C4BA; font-family: inherit; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; cursor: pointer">≈ 17,70 USDC <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 4 7l4 4"></path><path d="M4 7h16"></path><path d="m16 21 4-4-4-4"></path><path d="M20 17H4"></path></svg></button>
+</div>
+
+<button type="button" style="margin-top: 24px; padding: 12px 14px; border-radius: 18px; border: 1px solid #2E4D36; background: #122A1F; color: #FFFFFF; font-family: inherit; display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer">
+<span style="width: 36px; height: 36px; border-radius: 18px; background: #2775CA; display: flex; align-items: center; justify-content: center; font-weight: 800">$</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 14px; font-weight: 800">USDC</span><span style="font-size: 12px; font-weight: 500; color: #93A59B">Disponible : 250,00 USDC (≈ 141 250 FCFA)</span></span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+</button>
+
+<div style="display: flex; gap: 8px; margin-top: 12px">
+<button type="button" style="flex-grow: 1; height: 40px; border-radius: 20px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700">5 000</button>
+<button type="button" aria-pressed="true" style="flex-grow: 1; height: 40px; border-radius: 20px; border: none; background: #C9F17B; color: #0B1A12; font-family: inherit; font-size: 13px; font-weight: 800">10 000</button>
+<button type="button" style="flex-grow: 1; height: 40px; border-radius: 20px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700">25 000</button>
+<button type="button" style="flex-grow: 1; height: 40px; border-radius: 20px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700">Max</button>
+</div>
+
+<p style="margin: 14px 0 0; display: flex; gap: 8px; align-items: flex-start; font-size: 13px; line-height: 1.45; font-weight: 500; color: #B3C4BA"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9F17B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg><span>Moussa est sur Jokko : l'envoi passe automatiquement par le réseau le moins cher et arrive en quelques secondes.</span></p>
+
+<div style="flex-grow: 1"></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px">
+<button type="button" style="height: 54px; border: none; border-radius: 16px; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 24px; font-weight: 700">1</button>
+<button type="button" style="height: 54px; border: none; border-radius: 16px; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 24px; font-weight: 700">2</button>
+<button type="button" style="height: 54px; border: none; border-radius: 16px; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 24px; font-weight: 700">3</button>
+<button type="button" style="height: 54px; border: none; border-radius: 16px; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 24px; font-weight: 700">4</button>
+<button type="button" style="height: 54px; border: none; border-radius: 16px; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 24px; font-weight: 700">5</button>
+<button type="button" style="height: 54px; border: none; border-radius: 16px; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 24px; font-weight: 700">6</button>
+<button type="button" style="height: 54px; border: none; border-radius: 16px; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 24px; font-weight: 700">7</button>
+<button type="button" style="height: 54px; border: none; border-radius: 16px; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 24px; font-weight: 700">8</button>
+<button type="button" style="height: 54px; border: none; border-radius: 16px; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 24px; font-weight: 700">9</button>
+<button type="button" style="height: 54px; border: none; border-radius: 16px; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 24px; font-weight: 700">00</button>
+<button type="button" style="height: 54px; border: none; border-radius: 16px; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 24px; font-weight: 700">0</button>
+<button type="button" aria-label="Effacer" style="height: 54px; border: none; border-radius: 16px; background: transparent; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 5a2 2 0 0 0-1.344.519l-6.328 5.74a1 1 0 0 0 0 1.481l6.328 5.741A2 2 0 0 0 10 19h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"></path><path d="m12 9 6 6"></path><path d="m18 9-6 6"></path></svg></button>
+</div>
+<a href="SendConfirm.dc.html" style="height: 56px; border-radius: 28px; background: #C9F17B; color: #0B1A12; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; text-decoration: none">Continuer</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

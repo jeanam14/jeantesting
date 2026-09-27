@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Système de design Jokko Chain</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#041612}
+a{color:#C9F17B}a:hover{color:#DDF7A6}
+</style>
+</helmet>
+<div style="width: 1280px; height: 1760px; box-sizing: border-box; padding: 56px 64px; display: flex; flex-direction: column; gap: 40px; font-family: 'Plus Jakarta Sans', sans-serif; color: #FFFFFF; background: #041612">
+
+<header style="display: flex; align-items: center; justify-content: space-between; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<img src="/_blob/4a608fbb57a674ee4cb6f6d9f01f8e96" alt="Jokko Chain" style="width: 240px; height: 48px; object-fit: contain; object-position: left center">
+<h1 style="margin: 8px 0 0; font-size: 40px; font-weight: 800; letter-spacing: -0.8px">Système de design · v0.1</h1>
+<p style="margin: 0; max-width: 720px; font-size: 16px; line-height: 1.55; font-weight: 500; color: #B3C4BA">Couleurs relevées sur l'application existante (le vert citron #C9F17B est confirmé sur le logo et les boutons). Police provisoire : Plus Jakarta Sans, à remplacer par la police officielle de la marque si elle existe. Contraste des textes secondaires relevé pour atteindre 4,5:1.</p>
+</div>
+</header>
+
+<section aria-label="Couleurs" style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 22px; font-weight: 800">Couleurs</h2>
+<div style="display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 88px; border-radius: 16px; background: #C9F17B"></span><span style="font-size: 13px; font-weight: 800">Citron</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#C9F17B · action principale</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 88px; border-radius: 16px; background: #041612; border: 1px solid #25402E"></span><span style="font-size: 13px; font-weight: 800">Fond haut</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#041612</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 88px; border-radius: 16px; background: #13281B"></span><span style="font-size: 13px; font-weight: 800">Fond bas</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#13281B</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 88px; border-radius: 16px; background: #122A1F; border: 1px solid #22402E"></span><span style="font-size: 13px; font-weight: 800">Carte</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#122A1F · bord #22402E</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 88px; border-radius: 16px; background: #172B20; border: 1px solid #2E4D36"></span><span style="font-size: 13px; font-weight: 800">Champ</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#172B20 · bord #2E4D36</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 88px; border-radius: 16px; background: #253B26"></span><span style="font-size: 13px; font-weight: 800">Tuile d'icône</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#253B26</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 88px; border-radius: 16px; background: #24412B; border: 1px solid #36593D"></span><span style="font-size: 13px; font-weight: 800">Barre d'onglets</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#24412B · actif #3E6B47</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 88px; border-radius: 16px; background: #1A3322; border: 1px solid #3C5A3A"></span><span style="font-size: 13px; font-weight: 800">Mise en avant</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#1A3322 · bord #3C5A3A</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 56px; border-radius: 16px; background: #FFFFFF"></span><span style="font-size: 13px; font-weight: 800">Texte principal</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#FFFFFF</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 56px; border-radius: 16px; background: #B3C4BA"></span><span style="font-size: 13px; font-weight: 800">Texte secondaire</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#B3C4BA</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 56px; border-radius: 16px; background: #93A59B"></span><span style="font-size: 13px; font-weight: 800">Texte discret</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#93A59B (était #75867E)</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 56px; border-radius: 16px; background: #2EB186"></span><span style="font-size: 13px; font-weight: 800">Positif</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#2EB186</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 56px; border-radius: 16px; background: #F58A88"></span><span style="font-size: 13px; font-weight: 800">Négatif / erreur</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#F58A88 · icône #F55F5D</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 56px; border-radius: 16px; background: #F2C94C"></span><span style="font-size: 13px; font-weight: 800">Attention</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#F2C94C · fond #2A2616</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 56px; border-radius: 16px; background: #0B1A12; border: 1px solid #25402E"></span><span style="font-size: 13px; font-weight: 800">Texte sur citron</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#0B1A12</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="height: 56px; border-radius: 16px; background: #2B3D30"></span><span style="font-size: 13px; font-weight: 800">Désactivé</span><span style="font-size: 12px; font-weight: 600; color: #93A59B">#2B3D30 · texte #8A9C92</span></div>
+</div>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px">
+<section aria-label="Typographie" style="display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 22px; font-weight: 800">Typographie · Plus Jakarta Sans</h2>
+<div style="display: flex; align-items: baseline; gap: 16px; border-bottom: 1px solid #1E3828; padding-bottom: 10px"><span style="width: 150px; flex-shrink: 0; font-size: 12px; font-weight: 700; color: #93A59B">Montant · 40/800</span><span style="font-size: 40px; font-weight: 800; letter-spacing: -1px">186 450 FCFA</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px; border-bottom: 1px solid #1E3828; padding-bottom: 10px"><span style="width: 150px; flex-shrink: 0; font-size: 12px; font-weight: 700; color: #93A59B">Titre · 28/800</span><span style="font-size: 28px; font-weight: 800">Votre numéro de téléphone</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px; border-bottom: 1px solid #1E3828; padding-bottom: 10px"><span style="width: 150px; flex-shrink: 0; font-size: 12px; font-weight: 700; color: #93A59B">Titre d'écran · 22/800</span><span style="font-size: 22px; font-weight: 800">Vérifiez l'envoi</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px; border-bottom: 1px solid #1E3828; padding-bottom: 10px"><span style="width: 150px; flex-shrink: 0; font-size: 12px; font-weight: 700; color: #93A59B">Libellé · 15/700</span><span style="font-size: 15px; font-weight: 700">Moussa Ndiaye</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px; border-bottom: 1px solid #1E3828; padding-bottom: 10px"><span style="width: 150px; flex-shrink: 0; font-size: 12px; font-weight: 700; color: #93A59B">Texte · 15/500</span><span style="font-size: 15px; font-weight: 500; color: #B3C4BA">Vous seul contrôlez votre portefeuille.</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px; border-bottom: 1px solid #1E3828; padding-bottom: 10px"><span style="width: 150px; flex-shrink: 0; font-size: 12px; font-weight: 700; color: #93A59B">Légende · 12/500</span><span style="font-size: 12px; font-weight: 500; color: #93A59B">Valeurs indicatives en FCFA.</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="width: 150px; flex-shrink: 0; font-size: 12px; font-weight: 700; color: #93A59B">Section · 13/800</span><span style="font-size: 13px; font-weight: 800; letter-spacing: 1px; color: #93A59B">PAR RÉSEAU</span></div>
+</section>
+
+<section aria-label="Formats" style="display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 22px; font-weight: 800">Nombres et langues</h2>
+<div style="border-radius: 20px; background: #122A1F; border: 1px solid #22402E; overflow: hidden">
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 12px 16px; font-size: 12px; font-weight: 800; letter-spacing: 1px; color: #93A59B; border-bottom: 1px solid #1E3828"><span>ÉLÉMENT</span><span>FRANÇAIS</span><span>ENGLISH</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 12px 16px; font-size: 14px; font-weight: 600; border-bottom: 1px solid #1E3828"><span style="color: #B3C4BA">FCFA (0 décimale)</span><span>12 500 FCFA</span><span>12,500 FCFA</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 12px 16px; font-size: 14px; font-weight: 600; border-bottom: 1px solid #1E3828"><span style="color: #B3C4BA">Crypto</span><span>250,00 USDC</span><span>250.00 USDC</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 12px 16px; font-size: 14px; font-weight: 600; border-bottom: 1px solid #1E3828"><span style="color: #B3C4BA">Pourcentage</span><span>+1,2 %</span><span>+1.2%</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 12px 16px; font-size: 14px; font-weight: 600; border-bottom: 1px solid #1E3828"><span style="color: #B3C4BA">Date</span><span>26 sept. 2026</span><span>26 Sep 2026</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 12px 16px; font-size: 14px; font-weight: 600"><span style="color: #B3C4BA">Ton</span><span>« vous »</span><span>plain, direct</span></div>
+</div>
+<p style="margin: 0; font-size: 13px; line-height: 1.55; font-weight: 500; color: #B3C4BA">Chaque texte passe par les fichiers de traduction. Les mises en page acceptent un français 20 à 30 % plus long : pas de bouton à largeur fixe, libellés sur deux lignes si besoin.</p>
+</section>
+</div>
+
+<section aria-label="Composants" style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 22px; font-weight: 800">Boutons, champs et badges</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: #93A59B">BOUTONS · 56 px, arrondi complet</span>
+<button type="button" style="height: 56px; border-radius: 28px; border: none; background: #C9F17B; color: #0B1A12; font-family: inherit; font-size: 16px; font-weight: 800">Principal · Continuer</button>
+<button type="button" style="height: 56px; border-radius: 28px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 16px; font-weight: 700">Secondaire · Plus tard</button>
+<button type="button" disabled style="height: 56px; border-radius: 28px; border: none; background: #2B3D30; color: #8A9C92; font-family: inherit; font-size: 16px; font-weight: 800">Désactivé · explique pourquoi</button>
+<button type="button" style="height: 52px; border-radius: 26px; border: 1px solid #5A2E2D; background: #2A1716; color: #F58A88; font-family: inherit; font-size: 15px; font-weight: 800">Destructif · Se déconnecter</button>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: #93A59B">CHAMPS · 56 px, arrondi 16</span>
+<label for="ds1" style="font-size: 13px; font-weight: 700; color: #B3C4BA">Au repos</label>
+<input id="ds1" type="text" value="Awa" style="height: 56px; box-sizing: border-box; padding: 0 16px; border-radius: 16px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 16px; font-weight: 700; outline: none">
+<label for="ds2" style="font-size: 13px; font-weight: 700; color: #B3C4BA">Actif</label>
+<input id="ds2" type="text" value="Diop" style="height: 56px; box-sizing: border-box; padding: 0 16px; border-radius: 16px; border: 2px solid #C9F17B; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 16px; font-weight: 700; outline: none">
+<label for="ds3" style="font-size: 13px; font-weight: 700; color: #B3C4BA">Erreur</label>
+<input id="ds3" type="text" value="0,0045" aria-invalid="true" style="height: 56px; box-sizing: border-box; padding: 0 16px; border-radius: 16px; border: 2px solid #F58A88; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 16px; font-weight: 700; outline: none">
+<span style="font-size: 13px; font-weight: 700; color: #F58A88">Minimum 0,01 ETH.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: #93A59B">RÉSEAUX</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; color: #C9F17B; background: #1E3424; border: 1px solid #3C5A3A; border-radius: 999px; padding: 4px 10px">Polygon</span>
+<span style="font-size: 12px; font-weight: 700; color: #C9F17B; background: #1E3424; border: 1px solid #3C5A3A; border-radius: 999px; padding: 4px 10px">Ethereum (ERC20)</span>
+<span style="font-size: 12px; font-weight: 700; color: #C9F17B; background: #1E3424; border: 1px solid #3C5A3A; border-radius: 999px; padding: 4px 10px">BNB Chain (BEP20)</span>
+<span style="font-size: 12px; font-weight: 700; color: #C9F17B; background: #1E3424; border: 1px solid #3C5A3A; border-radius: 999px; padding: 4px 10px">Tron (TRC20)</span>
+<span style="font-size: 12px; font-weight: 700; color: #C9F17B; background: #1E3424; border: 1px solid #3C5A3A; border-radius: 999px; padding: 4px 10px">Solana</span>
+<span style="font-size: 12px; font-weight: 700; color: #C9F17B; background: #1E3424; border: 1px solid #3C5A3A; border-radius: 999px; padding: 4px 10px">Bitcoin</span>
+</div>
+<span style="margin-top: 8px; font-size: 12px; font-weight: 800; letter-spacing: 1px; color: #93A59B">STATUTS</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="font-size: 12px; font-weight: 800; color: #0B1A12; background: #C9F17B; border-radius: 999px; padding: 4px 10px">Recommandé</span>
+<span style="font-size: 12px; font-weight: 800; color: #2EB186; background: #0F4233; border-radius: 999px; padding: 4px 10px">Actif</span>
+<span style="font-size: 12px; font-weight: 800; color: #F2C94C; background: #2A2616; border: 1px solid #5A4E28; border-radius: 999px; padding: 4px 10px">En cours</span>
+<span style="font-size: 12px; font-weight: 800; color: #F58A88; background: #2A1716; border: 1px solid #5A2E2D; border-radius: 999px; padding: 4px 10px">Échoué</span>
+</div>
+<span style="margin-top: 8px; font-size: 12px; font-weight: 800; letter-spacing: 1px; color: #93A59B">ACTIFS</span>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<span aria-label="USDC" style="width: 40px; height: 40px; border-radius: 20px; background: #2775CA; display: flex; align-items: center; justify-content: center; font-weight: 800">$</span>
+<span aria-label="USDT" style="width: 40px; height: 40px; border-radius: 20px; background: #26A17B; display: flex; align-items: center; justify-content: center; font-weight: 800">₮</span>
+<span aria-label="ETH" style="width: 40px; height: 40px; border-radius: 20px; background: #627EEA; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">ETH</span>
+<span aria-label="SOL" style="width: 40px; height: 40px; border-radius: 20px; background: #9945FF; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">SOL</span>
+<span aria-label="BTC" style="width: 40px; height: 40px; border-radius: 20px; background: #F7931A; display: flex; align-items: center; justify-content: center; font-weight: 800">₿</span>
+<span aria-label="POL" style="width: 40px; height: 40px; border-radius: 20px; background: #8247E5; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">POL</span>
+<span aria-label="BNB" style="width: 40px; height: 40px; border-radius: 20px; background: #F3BA2F; color: #0B1A12; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">BNB</span>
+<span aria-label="TRX" style="width: 40px; height: 40px; border-radius: 20px; background: #EB0029; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">TRX</span>
+</div>
+</div>
+</div>
+</section>
+
+<section aria-label="Messages" style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 22px; font-weight: 800">Messages et règles</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<div role="note" style="padding: 14px 16px; border-radius: 16px; background: #1A3322; border: 1px solid #3C5A3A; font-size: 13px; line-height: 1.5; font-weight: 600; color: #D5E4D8">Information · « Sans inscription sous 48 heures, tout vous revient automatiquement. »</div>
+<div role="note" style="padding: 14px 16px; border-radius: 16px; background: #2A2616; border: 1px solid #5A4E28; font-size: 13px; line-height: 1.5; font-weight: 600; color: #F4E3B0">Attention · « Un mauvais réseau peut entraîner la perte des fonds. »</div>
+<div role="note" style="padding: 14px 16px; border-radius: 16px; background: #2A1716; border: 1px solid #5A2E2D; font-size: 13px; line-height: 1.5; font-weight: 600; color: #F8C3C2">Erreur · « Minimum 0,01 ETH. Vous avez 0,0045 ETH disponible. »</div>
+</div>
+<ul style="margin: 0; padding: 0 0 0 18px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.5; font-weight: 500; color: #B3C4BA">
+<li>Chaque écran de confirmation affiche : destinataire, réseau, montant, frais de réseau, frais du prestataire, <strong style="color: #FFFFFF">Frais Jokko</strong>, total.</li>
+<li>Jamais : « garanti », « sans risque », « Hot », « banque », « épargne », « intérêts ». Toujours : « estimé, variable » pour les rendements.</li>
+<li>Zones tactiles d'au moins 44 px. Contraste des textes d'au moins 4,5:1. Pas d'emoji dans l'interface.</li>
+<li>Bannière permanente anti-arnaque : « Jokko ne vous appellera jamais ».</li>
+</ul>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1760}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

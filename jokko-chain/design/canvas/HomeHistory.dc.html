@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Accueil — Historique</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#041612}
+a{color:#C9F17B}a:hover{color:#DDF7A6}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; font-family: 'Plus Jakarta Sans', sans-serif; color: #FFFFFF; background: linear-gradient(180deg, #041612 0%, #0C1F16 55%, #13281B 100%)">
+<header style="padding: 20px 20px 0; display: flex; align-items: center; justify-content: space-between">
+<h1 style="margin: 0; font-size: 24px; font-weight: 800">Historique</h1>
+<button type="button" aria-label="Rechercher" style="width: 44px; height: 44px; border-radius: 22px; border: 1px solid #25402E; background: #10241B; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></button>
+</header>
+
+<div role="tablist" aria-label="Vue" style="margin: 16px 20px 0; padding: 4px; border-radius: 16px; background: #0E2319; border: 1px solid #1F3A28; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px">
+<a role="tab" aria-selected="false" href="Main.dc.html" style="height: 44px; border-radius: 12px; color: #B3C4BA; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; text-decoration: none">Mon portefeuille</a>
+<a role="tab" aria-selected="true" href="HomeHistory.dc.html" style="height: 44px; border-radius: 12px; background: #24412B; color: #C9F17B; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; text-decoration: none">Historique</a>
+</div>
+
+<div style="display: flex; gap: 8px; padding: 14px 20px 0; overflow: hidden">
+<button type="button" aria-pressed="true" style="height: 36px; padding: 0 14px; border-radius: 18px; border: none; background: #C9F17B; color: #0B1A12; font-family: inherit; font-size: 13px; font-weight: 800; flex-shrink: 0">Tout</button>
+<button type="button" aria-pressed="false" style="height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700; flex-shrink: 0">Envois</button>
+<button type="button" aria-pressed="false" style="height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700; flex-shrink: 0">Réceptions</button>
+<button type="button" aria-pressed="false" style="height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700; flex-shrink: 0">Recharges</button>
+<button type="button" aria-pressed="false" style="height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700; flex-shrink: 0">Échanges</button>
+</div>
+
+<div style="padding: 18px 20px 0; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: #93A59B">AUJOURD'HUI</span>
+<div style="border-radius: 20px; background: #122A1F; border: 1px solid #22402E">
+<a href="PayThread.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; text-decoration: none; color: #FFFFFF; border-bottom: 1px solid #1E3828">
+<span style="width: 42px; height: 42px; flex-shrink: 0; border-radius: 21px; background: #16392A; color: #C9F17B; display: flex; align-items: center; justify-content: center; font-weight: 800">MN</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 15px; font-weight: 700">Moussa Ndiaye</span><span style="font-size: 12px; font-weight: 500; color: #93A59B">Reçu · USDC · Polygon · 14:32</span></span>
+<span style="font-size: 15px; font-weight: 800; color: #2EB186; font-variant-numeric: tabular-nums">+10 000 FCFA</span>
+</a>
+<a href="TopUpStatus.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; text-decoration: none; color: #FFFFFF">
+<span style="width: 42px; height: 42px; flex-shrink: 0; border-radius: 21px; background: #FF7900; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800">OM</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 15px; font-weight: 700">Recharge Orange Money</span><span style="font-size: 12px; font-weight: 600; color: #F2C94C">En cours · 11:05</span></span>
+<span style="font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums">+25 000 FCFA</span>
+</a>
+</div>
+</div>
+
+<div style="padding: 18px 20px 0; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: #93A59B">HIER</span>
+<div style="border-radius: 20px; background: #122A1F; border: 1px solid #22402E">
+<a href="PayThread.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; text-decoration: none; color: #FFFFFF; border-bottom: 1px solid #1E3828">
+<span style="width: 42px; height: 42px; flex-shrink: 0; border-radius: 21px; background: #3A2E57; color: #E4D9FF; display: flex; align-items: center; justify-content: center; font-weight: 800">FS</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 15px; font-weight: 700">Fatou Sow</span><span style="font-size: 12px; font-weight: 500; color: #93A59B">Envoyé · USDC · Polygon · 19:10</span></span>
+<span style="font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums">−5 000 FCFA</span>
+</a>
+<a href="SwapReview.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; text-decoration: none; color: #FFFFFF; border-bottom: 1px solid #1E3828">
+<span style="width: 42px; height: 42px; flex-shrink: 0; border-radius: 21px; background: #253B26; color: #C9F17B; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 4 7l4 4"></path><path d="M4 7h16"></path><path d="m16 21 4-4-4-4"></path><path d="M20 17H4"></path></svg></span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 15px; font-weight: 700">Échange USDT → USDC</span><span style="font-size: 12px; font-weight: 500; color: #93A59B">Tron (TRC20) → Polygon · 16:48</span></span>
+<span style="font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums">40,00 USDC</span>
+</a>
+<a href="Stake.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; text-decoration: none; color: #FFFFFF">
+<span style="width: 42px; height: 42px; flex-shrink: 0; border-radius: 21px; background: #253B26; color: #C9F17B; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg></span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 15px; font-weight: 700">Récompense de staking</span><span style="font-size: 12px; font-weight: 500; color: #93A59B">ETH · Everstake · 08:00</span></span>
+<span style="font-size: 15px; font-weight: 800; color: #2EB186; font-variant-numeric: tabular-nums">+0,00002 ETH</span>
+</a>
+</div>
+</div>
+
+<div style="flex-grow: 1"></div>
+<dc-import name="TabBar" active="home" hint-size="390px,96px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

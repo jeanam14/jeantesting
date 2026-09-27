@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Barre d'onglets</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<nav aria-label="Navigation principale" style="width: 390px; height: 96px; box-sizing: border-box; padding: 6px 14px 26px; font-family: 'Plus Jakarta Sans', sans-serif; color: #D5E4D8">
+<div style="height: 64px; box-sizing: border-box; border-radius: 32px; background: #24412B; border: 1px solid #36593D; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: center; padding: 0 6px; column-gap: 2px">
+<a href="Main.dc.html" aria-current="{{home.current}}" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 52px; border-radius: 26px; text-decoration: none; font-size: 11px; font-weight: 700; background: {{home.bg}}; color: {{home.fg}}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+<span>{{home.label}}</span>
+</a>
+<a href="PayThreads.dc.html" aria-current="{{payments.current}}" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 52px; border-radius: 26px; text-decoration: none; font-size: 11px; font-weight: 700; background: {{payments.bg}}; color: {{payments.fg}}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>
+<span>{{payments.label}}</span>
+</a>
+<a href="Swap.dc.html" aria-current="{{swap.current}}" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 52px; border-radius: 26px; text-decoration: none; font-size: 11px; font-weight: 700; background: {{swap.bg}}; color: {{swap.fg}}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3 4 7l4 4"></path><path d="M4 7h16"></path><path d="m16 21 4-4-4-4"></path><path d="M20 17H4"></path></svg>
+<span>{{swap.label}}</span>
+</a>
+<a href="Earn.dc.html" aria-current="{{earn.current}}" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 52px; border-radius: 26px; text-decoration: none; font-size: 11px; font-weight: 700; background: {{earn.bg}}; color: {{earn.fg}}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 20h10"></path><path d="M10 20c5.5-2.5.8-6.4 3-10"></path><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"></path><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"></path></svg>
+<span>{{earn.label}}</span>
+</a>
+<a href="More.dc.html" aria-current="{{more.current}}" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 52px; border-radius: 26px; text-decoration: none; font-size: 11px; font-weight: 700; background: {{more.bg}}; color: {{more.fg}}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
+<span>{{more.label}}</span>
+</a>
+</div>
+</nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"active":{"editor":"enum","options":["home","payments","swap","earn","more"],"default":"home"},"lang":{"editor":"enum","options":["fr","en"],"default":"fr"},"$preview":{"width":390,"height":96}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var active = this.props.active ?? 'home';
+    var lang = this.props.lang ?? 'fr';
+    var labels = {
+      fr: { home: 'Accueil', payments: 'Paiements', swap: 'Échanger', earn: 'Gagner', more: 'Plus' },
+      en: { home: 'Home', payments: 'Payments', swap: 'Swap', earn: 'Earn', more: 'More' }
+    };
+    var names = labels[lang] || labels.fr;
+    function tab(id) {
+      var on = active === id;
+      return { bg: on ? '#3E6B47' : 'transparent', fg: on ? '#C9F17B' : '#C3D4C8', current: on ? 'page' : 'false', label: names[id] };
+    }
+    return { home: tab('home'), payments: tab('payments'), swap: tab('swap'), earn: tab('earn'), more: tab('more') };
+  }
+}
+</script>
+</body>
+</html>

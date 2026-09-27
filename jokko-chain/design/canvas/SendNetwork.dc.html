@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Envoyer — choix du réseau</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#041612}
+a{color:#C9F17B}a:hover{color:#DDF7A6}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 16px 20px 28px; display: flex; flex-direction: column; font-family: 'Plus Jakarta Sans', sans-serif; color: #FFFFFF; background: linear-gradient(180deg, #041612 0%, #0C1F16 55%, #13281B 100%)">
+<div style="display: flex; align-items: center; gap: 12px">
+<a href="SendRecipient.dc.html" aria-label="Retour" style="width: 44px; height: 44px; border-radius: 22px; background: #10241B; border: 1px solid #25402E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-sizing: border-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></a>
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; font-weight: 600; color: #93A59B">10 000 FCFA en USDC vers</span><span style="font-size: 16px; font-weight: 800">0x7a3F…9c21</span></span>
+</div>
+
+<h1 style="margin: 24px 0 0; font-size: 22px; line-height: 1.25; font-weight: 800">Sur quel réseau le destinataire reçoit-il ?</h1>
+<div role="note" style="margin-top: 14px; padding: 12px 14px; border-radius: 16px; background: #2A2616; border: 1px solid #5A4E28; display: flex; gap: 10px; align-items: flex-start">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F2C94C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 1px"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+<span style="font-size: 13px; line-height: 1.45; font-weight: 600; color: #F4E3B0">Choisissez le même réseau que celui indiqué par le destinataire (par ex. sur Binance). Un mauvais réseau peut entraîner la perte des fonds.</span>
+</div>
+
+<fieldset style="margin: 18px 0 0; padding: 0; border: none; display: flex; flex-direction: column; gap: 10px">
+<legend style="position: absolute; left: -9999px">Réseau</legend>
+<label style="padding: 14px; border-radius: 18px; background: #1A3322; border: 2px solid #C9F17B; display: flex; align-items: center; gap: 12px; cursor: pointer">
+<input type="radio" name="net" checked style="width: 20px; height: 20px; margin: 0; accent-color: #C9F17B">
+<span style="width: 34px; height: 34px; border-radius: 17px; background: #8247E5; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">POL</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 6px">Polygon <span style="font-size: 11px; font-weight: 800; color: #0B1A12; background: #C9F17B; border-radius: 999px; padding: 2px 8px">Recommandé</span></span><span style="font-size: 12px; font-weight: 500; color: #B3C4BA">Arrivée en quelques secondes</span></span>
+<span style="font-size: 14px; font-weight: 800">≈ 5 FCFA</span>
+</label>
+<label style="padding: 14px; border-radius: 18px; background: #122A1F; border: 1px solid #2E4D36; display: flex; align-items: center; gap: 12px; cursor: pointer">
+<input type="radio" name="net" style="width: 20px; height: 20px; margin: 0; accent-color: #C9F17B">
+<span style="width: 34px; height: 34px; border-radius: 17px; background: #F3BA2F; color: #0B1A12; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">BNB</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 15px; font-weight: 800">BNB Chain (BEP20)</span><span style="font-size: 12px; font-weight: 500; color: #B3C4BA">Environ 15 secondes</span></span>
+<span style="font-size: 14px; font-weight: 800">≈ 40 FCFA</span>
+</label>
+<label style="padding: 14px; border-radius: 18px; background: #122A1F; border: 1px solid #2E4D36; display: flex; align-items: center; gap: 12px; cursor: pointer">
+<input type="radio" name="net" style="width: 20px; height: 20px; margin: 0; accent-color: #C9F17B">
+<span style="width: 34px; height: 34px; border-radius: 17px; background: #9945FF; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">SOL</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 15px; font-weight: 800">Solana</span><span style="font-size: 12px; font-weight: 500; color: #B3C4BA">Quelques secondes</span></span>
+<span style="font-size: 14px; font-weight: 800">≈ 10 FCFA</span>
+</label>
+<label style="padding: 14px; border-radius: 18px; background: #122A1F; border: 1px solid #2E4D36; display: flex; align-items: center; gap: 12px; cursor: pointer">
+<input type="radio" name="net" style="width: 20px; height: 20px; margin: 0; accent-color: #C9F17B">
+<span style="width: 34px; height: 34px; border-radius: 17px; background: #627EEA; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">ETH</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 15px; font-weight: 800">Ethereum (ERC20)</span><span style="font-size: 12px; font-weight: 600; color: #F2C94C">Frais : 8,5 % du montant envoyé</span></span>
+<span style="font-size: 14px; font-weight: 800">≈ 850 FCFA</span>
+</label>
+</fieldset>
+<p style="margin: 12px 0 0; font-size: 12px; font-weight: 500; line-height: 1.45; color: #93A59B">Frais de réseau estimés à l'instant. Tron (TRC20) n'est pas proposé : l'USDC n'y circule plus.</p>
+
+<div style="flex-grow: 1"></div>
+<a href="SendConfirm.dc.html" style="height: 56px; border-radius: 28px; background: #C9F17B; color: #0B1A12; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; text-decoration: none">Continuer avec Polygon</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

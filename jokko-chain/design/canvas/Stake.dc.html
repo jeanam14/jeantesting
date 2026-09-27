@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Staker de l'ETH — montant insuffisant</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#041612}
+a{color:#C9F17B}a:hover{color:#DDF7A6}
+</style>
+</helmet>
+<div style="width: 390px; height: 900px; box-sizing: border-box; padding: 16px 20px 28px; display: flex; flex-direction: column; font-family: 'Plus Jakarta Sans', sans-serif; color: #FFFFFF; background: linear-gradient(180deg, #041612 0%, #0C1F16 55%, #13281B 100%)">
+<div style="display: flex; align-items: center; gap: 12px">
+<a href="Earn.dc.html" aria-label="Retour" style="width: 44px; height: 44px; border-radius: 22px; background: #10241B; border: 1px solid #25402E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-sizing: border-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></a>
+<h1 style="margin: 0; font-size: 22px; font-weight: 800">Staker de l'ETH</h1>
+</div>
+
+<label for="stk" style="margin-top: 26px; font-size: 13px; font-weight: 700; color: #B3C4BA">Montant</label>
+<div style="margin-top: 8px; height: 68px; box-sizing: border-box; padding: 0 16px; border-radius: 18px; border: 2px solid #F58A88; background: #172B20; display: flex; align-items: center; gap: 8px">
+<input id="stk" type="text" inputmode="decimal" value="0,0045" aria-invalid="true" aria-describedby="stk-err" style="flex-grow: 1; min-width: 0; border: none; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 30px; font-weight: 800; outline: none">
+<span style="font-size: 18px; font-weight: 800; color: #C3D4C8">ETH</span>
+</div>
+<span id="stk-err" style="margin-top: 8px; display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 700; color: #F58A88"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>Minimum 0,01 ETH. Vous avez 0,0045 ETH disponible.</span>
+
+<dl style="margin: 20px 0 0; padding: 4px 16px; border-radius: 20px; background: #122A1F; border: 1px solid #22402E">
+<div style="display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid #1E3828"><dt style="font-size: 14px; font-weight: 600; color: #B3C4BA">Récompense estimée</dt><dd style="margin: 0; font-size: 14px; font-weight: 700">≈ 4,2 %/an, variable</dd></div>
+<div style="display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid #1E3828"><dt style="font-size: 14px; font-weight: 600; color: #B3C4BA">Prestataire</dt><dd style="margin: 0; font-size: 14px; font-weight: 700">Everstake</dd></div>
+<div style="display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid #1E3828"><dt style="font-size: 14px; font-weight: 600; color: #B3C4BA">Délai de retrait</dt><dd style="margin: 0; font-size: 14px; font-weight: 700; text-align: right">Quelques jours à<br>quelques semaines</dd></div>
+<div style="display: flex; justify-content: space-between; padding: 11px 0"><dt style="font-size: 14px; font-weight: 600; color: #B3C4BA">Frais Jokko</dt><dd style="margin: 0; font-size: 14px; font-weight: 700">[FRAIS JOKKO STAKING]</dd></div>
+</dl>
+
+<p style="margin: 14px 0 0; font-size: 12px; line-height: 1.5; font-weight: 500; color: #93A59B">Récompenses estimées, variables et non garanties. Pendant le délai de retrait, vos ETH ne peuvent pas être envoyés ni échangés. Service fourni par Everstake selon <a href="#">ses conditions</a>.</p>
+
+<div style="flex-grow: 1"></div>
+<a href="TopUpMethod.dc.html" style="height: 52px; margin-bottom: 10px; border-radius: 26px; background: #172B20; border: 1px solid #2E4D36; box-sizing: border-box; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; text-decoration: none">Acheter de l'ETH</a>
+<button type="button" disabled style="height: 56px; border-radius: 28px; border: none; background: #2B3D30; color: #8A9C92; font-family: inherit; font-size: 16px; font-weight: 800; cursor: not-allowed">Montant minimum non atteint</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

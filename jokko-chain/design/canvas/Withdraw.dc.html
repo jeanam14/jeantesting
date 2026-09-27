@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Retirer vers Mobile Money</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#041612}
+a{color:#C9F17B}a:hover{color:#DDF7A6}
+</style>
+</helmet>
+<div style="width: 390px; height: 900px; box-sizing: border-box; padding: 16px 20px 28px; display: flex; flex-direction: column; font-family: 'Plus Jakarta Sans', sans-serif; color: #FFFFFF; background: linear-gradient(180deg, #041612 0%, #0C1F16 55%, #13281B 100%)">
+<div style="display: flex; align-items: center; gap: 12px">
+<a href="Main.dc.html" aria-label="Retour" style="width: 44px; height: 44px; border-radius: 22px; background: #10241B; border: 1px solid #25402E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-sizing: border-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></a>
+<h1 style="margin: 0; font-size: 22px; font-weight: 800">Vendre et retirer</h1>
+</div>
+
+<span style="margin-top: 24px; font-size: 13px; font-weight: 700; color: #B3C4BA">Vous vendez</span>
+<button type="button" style="margin-top: 8px; padding: 12px 14px; border-radius: 18px; border: 1px solid #2E4D36; background: #122A1F; color: #FFFFFF; font-family: inherit; display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer">
+<span style="width: 36px; height: 36px; border-radius: 18px; background: #2775CA; display: flex; align-items: center; justify-content: center; font-weight: 800">$</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 14px; font-weight: 800">USDC · Polygon</span><span style="font-size: 12px; font-weight: 500; color: #93A59B">Disponible : 180,00 USDC</span></span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+</button>
+
+<label for="recv" style="margin-top: 18px; font-size: 13px; font-weight: 700; color: #B3C4BA">Vous recevez sur Mobile Money</label>
+<div style="margin-top: 8px; height: 68px; box-sizing: border-box; padding: 0 16px; border-radius: 18px; border: 2px solid #C9F17B; background: #172B20; display: flex; align-items: center; gap: 8px">
+<input id="recv" type="text" inputmode="numeric" value="20 000" style="flex-grow: 1; min-width: 0; border: none; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 30px; font-weight: 800; outline: none">
+<span style="font-size: 18px; font-weight: 800; color: #C3D4C8">FCFA</span>
+</div>
+
+<span style="margin-top: 18px; font-size: 13px; font-weight: 700; color: #B3C4BA">Vers</span>
+<button type="button" style="margin-top: 8px; padding: 12px 14px; border-radius: 18px; border: 1px solid #2E4D36; background: #122A1F; color: #FFFFFF; font-family: inherit; display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer">
+<span style="width: 36px; height: 36px; border-radius: 10px; background: #FF7900; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">OM</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 14px; font-weight: 800">Orange Money</span><span style="font-size: 12px; font-weight: 500; color: #93A59B">+221 77 123 45 67 · votre numéro</span></span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+</button>
+
+<dl style="margin: 18px 0 0; padding: 4px 16px; border-radius: 20px; background: #122A1F; border: 1px solid #22402E">
+<div style="display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid #1E3828"><dt style="font-size: 14px; font-weight: 600; color: #B3C4BA">Vous vendez</dt><dd style="margin: 0; font-size: 14px; font-weight: 700">36,46 USDC</dd></div>
+<div style="display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid #1E3828"><dt style="font-size: 14px; font-weight: 600; color: #B3C4BA">Frais du prestataire (Fonbnk)</dt><dd style="margin: 0; font-size: 14px; font-weight: 700">400 FCFA</dd></div>
+<div style="display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid #1E3828"><dt style="font-size: 14px; font-weight: 600; color: #B3C4BA">Frais Jokko</dt><dd style="margin: 0; font-size: 14px; font-weight: 700">200 FCFA</dd></div>
+<div style="display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid #1E3828"><dt style="font-size: 14px; font-weight: 600; color: #B3C4BA">Taux appliqué</dt><dd style="margin: 0; font-size: 14px; font-weight: 700">1 USDC = 565 FCFA</dd></div>
+<div style="display: flex; justify-content: space-between; padding: 11px 0"><dt style="font-size: 14px; font-weight: 600; color: #B3C4BA">Délai</dt><dd style="margin: 0; font-size: 14px; font-weight: 700">Moins de 10 minutes</dd></div>
+</dl>
+<p style="margin: 12px 0 0; font-size: 12px; line-height: 1.5; font-weight: 500; color: #93A59B">Service fourni par Fonbnk selon <a href="#">ses conditions</a>. Le taux est garanti pendant 45 secondes.</p>
+
+<div style="flex-grow: 1"></div>
+<a href="TopUpStatus.dc.html" style="height: 56px; border-radius: 28px; background: #C9F17B; color: #0B1A12; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; font-weight: 800; text-decoration: none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2"></path><path d="M17 3h2a2 2 0 0 1 2 2v2"></path><path d="M21 17v2a2 2 0 0 1-2 2h-2"></path><path d="M7 21H5a2 2 0 0 1-2-2v-2"></path><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><path d="M9 9h.01"></path><path d="M15 9h.01"></path></svg>Confirmer avec Face ID</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

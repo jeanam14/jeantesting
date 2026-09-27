@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Recevoir</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#041612}
+a{color:#C9F17B}a:hover{color:#DDF7A6}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 16px 20px 28px; display: flex; flex-direction: column; font-family: 'Plus Jakarta Sans', sans-serif; color: #FFFFFF; background: linear-gradient(180deg, #041612 0%, #0C1F16 55%, #13281B 100%)">
+<div style="display: flex; align-items: center; gap: 12px">
+<a href="Main.dc.html" aria-label="Retour" style="width: 44px; height: 44px; border-radius: 22px; background: #10241B; border: 1px solid #25402E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-sizing: border-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></a>
+<h1 style="margin: 0; font-size: 22px; font-weight: 800">Recevoir</h1>
+</div>
+
+<div style="margin-top: 18px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: #93A59B">CRYPTO</span>
+<div style="display: flex; gap: 8px">
+<button type="button" aria-pressed="true" style="height: 38px; padding: 0 14px; border-radius: 19px; border: none; background: #C9F17B; color: #0B1A12; font-family: inherit; font-size: 13px; font-weight: 800">USDC</button>
+<button type="button" style="height: 38px; padding: 0 14px; border-radius: 19px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700">USDT</button>
+<button type="button" style="height: 38px; padding: 0 14px; border-radius: 19px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700">ETH</button>
+<button type="button" style="height: 38px; padding: 0 14px; border-radius: 19px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700">BTC</button>
+<button type="button" style="height: 38px; padding: 0 12px; border-radius: 19px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700">Plus</button>
+</div>
+<span style="margin-top: 6px; font-size: 12px; font-weight: 800; letter-spacing: 1px; color: #93A59B">RÉSEAU</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<button type="button" aria-pressed="true" style="height: 38px; padding: 0 14px; border-radius: 19px; border: none; background: #C9F17B; color: #0B1A12; font-family: inherit; font-size: 13px; font-weight: 800">Polygon · Recommandé</button>
+<button type="button" style="height: 38px; padding: 0 14px; border-radius: 19px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700">Ethereum (ERC20)</button>
+<button type="button" style="height: 38px; padding: 0 14px; border-radius: 19px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700">BNB Chain (BEP20)</button>
+<button type="button" style="height: 38px; padding: 0 14px; border-radius: 19px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 13px; font-weight: 700">Solana</button>
+</div>
+</div>
+
+<div style="margin: 18px auto 0; width: 220px; height: 220px; box-sizing: border-box; padding: 14px; border-radius: 24px; background: #FFFFFF">
+<div role="img" aria-label="QR code de votre adresse Polygon" style="width: 192px; height: 192px; display: grid; grid-template-columns: repeat(25, minmax(0, 1fr))">
+<sc-for list="{{cells}}" as="cell" hint-placeholder-count="625">
+<span style="background: {{cell.bg}}"></span>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top: 16px; padding: 12px 14px; border-radius: 16px; background: #122A1F; border: 1px solid #22402E; display: flex; align-items: center; gap: 10px">
+<span style="flex-grow: 1; font-size: 14px; font-weight: 700; letter-spacing: 0.3px; word-break: break-all; font-variant-numeric: tabular-nums"><span style="color: #C9F17B">0x7a3F91</span>c2d4e8b0f3a6d19e5c7b2a48f0<span style="color: #C9F17B">4b9c21</span></span>
+<button type="button" aria-label="Copier l'adresse" style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 22px; border: none; background: #C9F17B; color: #0B1A12; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button>
+</div>
+
+<div role="note" style="margin-top: 12px; padding: 12px 14px; border-radius: 16px; background: #2A2616; border: 1px solid #5A4E28; display: flex; gap: 10px; align-items: flex-start">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F2C94C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 1px"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+<span style="font-size: 13px; line-height: 1.45; font-weight: 600; color: #F4E3B0">Envoyez uniquement de l'USDC sur le réseau Polygon à cette adresse.</span>
+</div>
+
+<div style="flex-grow: 1"></div>
+<button type="button" style="height: 56px; border-radius: 28px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" x2="12" y1="2" y2="15"></line></svg>Partager mon adresse</button>
+<p style="margin: 10px 0 0; text-align: center; font-size: 12px; font-weight: 500; color: #93A59B">Un proche sur Jokko ? Il peut vous payer avec votre numéro.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var n = 25;
+    var seed = 20260927;
+    function rnd() { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; }
+    function finder(r, c) {
+      var corners = [[0, 0], [0, n - 7], [n - 7, 0]];
+      for (var i = 0; i < corners.length; i++) {
+        var r0 = corners[i][0], c0 = corners[i][1];
+        if (r >= r0 - 1 && r <= r0 + 7 && c >= c0 - 1 && c <= c0 + 7) {
+          var rr = r - r0, cc = c - c0;
+          if (rr < 0 || rr > 6 || cc < 0 || cc > 6) return 0;
+          if (rr === 0 || rr === 6 || cc === 0 || cc === 6) return 1;
+          if (rr >= 2 && rr <= 4 && cc >= 2 && cc <= 4) return 1;
+          return 0;
+        }
+      }
+      return -1;
+    }
+    var cells = [];
+    for (var r = 0; r < n; r++) {
+      for (var c = 0; c < n; c++) {
+        var f = finder(r, c);
+        var on = f === -1 ? rnd() > 0.52 : f === 1;
+        cells.push({ bg: on ? '#0B1A12' : '#FFFFFF' });
+      }
+    }
+    return { cells: cells };
+  }
+}
+</script>
+</body>
+</html>

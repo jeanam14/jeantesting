@@ -1,0 +1,91 @@
+{
+  "v": 3,
+  "createdOnFiles": {"v": 1, "at": "2026-09-27T10:00:00Z"},
+  "title": "Jokko Chain — App Design",
+  "launch": {"view": "canvas", "page": "home"},
+  "pages": [
+    {"id": "system", "name": "Système de design"},
+    {"id": "onboarding", "name": "Inscription"},
+    {"id": "home", "name": "Accueil"},
+    {"id": "send", "name": "Envoyer & Recevoir"},
+    {"id": "payments", "name": "Paiements"},
+    {"id": "ramp", "name": "Recharger & Retirer"},
+    {"id": "swap", "name": "Échanger"},
+    {"id": "earn", "name": "Gagner"},
+    {"id": "more", "name": "Plus & Réglages"},
+    {"id": "english", "name": "English"}
+  ],
+  "boards": {
+    "DesignSystem.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1760, "title": "Système de design", "page": "system"},
+    "TabBar.dc.html": {"x": 1360, "y": 0, "w": 390, "h": 96, "title": "Composant · Barre d'onglets", "page": "system", "is_interactive": true},
+
+    "OnbWelcome.dc.html": {"x": 0, "y": 0, "w": 390, "h": 844, "title": "1 · Bienvenue", "page": "onboarding", "is_interactive": true},
+    "OnbPhone.dc.html": {"x": 470, "y": 0, "w": 390, "h": 844, "title": "2 · Numéro de téléphone", "page": "onboarding", "is_interactive": true},
+    "OnbCode.dc.html": {"x": 940, "y": 0, "w": 390, "h": 844, "title": "3 · Code de vérification", "page": "onboarding", "is_interactive": true},
+    "OnbName.dc.html": {"x": 1410, "y": 0, "w": 390, "h": 844, "title": "4 · Nom", "page": "onboarding", "is_interactive": true},
+    "OnbEmail.dc.html": {"x": 1880, "y": 0, "w": 390, "h": 844, "title": "5 · E-mail (facultatif)", "page": "onboarding", "is_interactive": true},
+    "OnbPasscode.dc.html": {"x": 2350, "y": 0, "w": 390, "h": 844, "title": "6 · Code d'accès", "page": "onboarding", "is_interactive": true},
+    "OnbBiometrics.dc.html": {"x": 2820, "y": 0, "w": 390, "h": 844, "title": "7 · Face ID / empreinte", "page": "onboarding", "is_interactive": true},
+
+    "Main.dc.html": {"x": 0, "y": 0, "w": 390, "h": 1240, "title": "Accueil · Mon portefeuille", "page": "home", "is_interactive": true},
+    "HomeHistory.dc.html": {"x": 470, "y": 0, "w": 390, "h": 844, "title": "Accueil · Historique", "page": "home", "is_interactive": true},
+    "AssetDetail.dc.html": {"x": 940, "y": 0, "w": 390, "h": 844, "title": "Détail d'un actif · Regrouper", "page": "home", "is_interactive": true},
+    "HomeEmpty.dc.html": {"x": 1410, "y": 0, "w": 390, "h": 844, "title": "Accueil · Nouveau compte (vide)", "page": "home", "is_interactive": true},
+
+    "SendRecipient.dc.html": {"x": 0, "y": 0, "w": 390, "h": 844, "title": "Envoyer 1 · Destinataire", "page": "send", "is_interactive": true},
+    "SendAmount.dc.html": {"x": 470, "y": 0, "w": 390, "h": 844, "title": "Envoyer 2 · Montant", "page": "send", "is_interactive": true},
+    "SendNetwork.dc.html": {"x": 940, "y": 0, "w": 390, "h": 844, "title": "Envoyer 3 · Réseau (adresse externe)", "page": "send", "is_interactive": true},
+    "SendConfirm.dc.html": {"x": 1410, "y": 0, "w": 390, "h": 900, "title": "Envoyer 4 · Confirmation", "page": "send", "is_interactive": true},
+    "SendSuccess.dc.html": {"x": 1880, "y": 0, "w": 390, "h": 844, "title": "Envoyer 5 · Envoyé", "page": "send", "is_interactive": true},
+    "PhoneInvite.dc.html": {"x": 2350, "y": 0, "w": 390, "h": 844, "title": "Envoi à un numéro (non inscrit)", "page": "send", "is_interactive": true},
+    "Receive.dc.html": {"x": 2820, "y": 0, "w": 390, "h": 844, "title": "Recevoir", "page": "send", "is_interactive": true},
+
+    "PayThreads.dc.html": {"x": 0, "y": 0, "w": 390, "h": 844, "title": "Paiements · Conversations", "page": "payments", "is_interactive": true},
+    "PayThread.dc.html": {"x": 470, "y": 0, "w": 390, "h": 844, "title": "Paiements · Conversation", "page": "payments", "is_interactive": true},
+
+    "TopUpMethod.dc.html": {"x": 0, "y": 0, "w": 390, "h": 844, "title": "Recharger 1 · Moyen de paiement", "page": "ramp", "is_interactive": true},
+    "TopUpAmount.dc.html": {"x": 470, "y": 0, "w": 390, "h": 900, "title": "Recharger 2 · Montant et devis", "page": "ramp", "is_interactive": true},
+    "TopUpStatus.dc.html": {"x": 940, "y": 0, "w": 390, "h": 844, "title": "Recharger 3 · Suivi", "page": "ramp", "is_interactive": true},
+    "Withdraw.dc.html": {"x": 1410, "y": 0, "w": 390, "h": 900, "title": "Retirer vers Mobile Money", "page": "ramp", "is_interactive": true},
+
+    "Swap.dc.html": {"x": 0, "y": 0, "w": 390, "h": 844, "title": "Échanger · Saisie", "page": "swap", "is_interactive": true},
+    "SwapReview.dc.html": {"x": 470, "y": 0, "w": 390, "h": 900, "title": "Échanger · Vérification", "page": "swap", "is_interactive": true},
+
+    "Earn.dc.html": {"x": 0, "y": 0, "w": 390, "h": 1000, "title": "Gagner · Staking", "page": "earn", "is_interactive": true},
+    "Stake.dc.html": {"x": 470, "y": 0, "w": 390, "h": 900, "title": "Gagner · Staker de l'ETH", "page": "earn", "is_interactive": true},
+
+    "More.dc.html": {"x": 0, "y": 0, "w": 390, "h": 844, "title": "Plus", "page": "more", "is_interactive": true},
+    "Referral.dc.html": {"x": 470, "y": 0, "w": 390, "h": 900, "title": "Parrainage", "page": "more", "is_interactive": true},
+    "CardWaitlist.dc.html": {"x": 940, "y": 0, "w": 390, "h": 844, "title": "Carte · Liste d'attente", "page": "more", "is_interactive": true},
+    "Settings.dc.html": {"x": 1410, "y": 0, "w": 390, "h": 1160, "title": "Réglages", "page": "more", "is_interactive": true},
+    "Security.dc.html": {"x": 1880, "y": 0, "w": 390, "h": 1080, "title": "Sécurité", "page": "more", "is_interactive": true},
+
+    "HomeEN.dc.html": {"x": 0, "y": 0, "w": 390, "h": 1240, "title": "Home (English)", "page": "english", "is_interactive": true},
+    "PhoneEN.dc.html": {"x": 470, "y": 0, "w": 390, "h": 844, "title": "Phone number (English)", "page": "english", "is_interactive": true}
+  },
+  "order": [
+    "DesignSystem.dc.html", "TabBar.dc.html",
+    "OnbWelcome.dc.html", "OnbPhone.dc.html", "OnbCode.dc.html", "OnbName.dc.html", "OnbEmail.dc.html", "OnbPasscode.dc.html", "OnbBiometrics.dc.html",
+    "Main.dc.html", "HomeHistory.dc.html", "AssetDetail.dc.html", "HomeEmpty.dc.html",
+    "SendRecipient.dc.html", "SendAmount.dc.html", "SendNetwork.dc.html", "SendConfirm.dc.html", "SendSuccess.dc.html", "PhoneInvite.dc.html", "Receive.dc.html",
+    "PayThreads.dc.html", "PayThread.dc.html",
+    "TopUpMethod.dc.html", "TopUpAmount.dc.html", "TopUpStatus.dc.html", "Withdraw.dc.html",
+    "Swap.dc.html", "SwapReview.dc.html",
+    "Earn.dc.html", "Stake.dc.html",
+    "More.dc.html", "Referral.dc.html", "CardWaitlist.dc.html", "Settings.dc.html", "Security.dc.html",
+    "HomeEN.dc.html", "PhoneEN.dc.html"
+  ],
+  "notes": {
+    "t_system": {"x": 0, "y": -300, "text": "Système de design — couleurs, typographie, composants", "kind": "title1", "maxW": 1750, "page": "system"},
+    "t_onboarding": {"x": 0, "y": -300, "text": "Inscription — environ 60 à 90 secondes", "kind": "title1", "maxW": 3210, "page": "onboarding"},
+    "t_home": {"x": 0, "y": -300, "text": "Accueil — solde, actions, actifs par réseau", "kind": "title1", "maxW": 1800, "page": "home"},
+    "t_send": {"x": 0, "y": -300, "text": "Envoyer & Recevoir — frais toujours affichés avant validation", "kind": "title1", "maxW": 3210, "page": "send"},
+    "t_payments": {"x": 0, "y": -300, "text": "Paiements — une conversation par contact", "kind": "title1", "maxW": 860, "page": "payments"},
+    "t_ramp": {"x": 0, "y": -300, "text": "Recharger & Retirer — via des prestataires agréés", "kind": "title1", "maxW": 1800, "page": "ramp"},
+    "t_swap": {"x": 0, "y": -300, "text": "Échanger — via LI.FI", "kind": "title1", "maxW": 860, "page": "swap"},
+    "t_earn": {"x": 0, "y": -300, "text": "Gagner — staking ETH et SOL", "kind": "title1", "maxW": 860, "page": "earn"},
+    "t_more": {"x": 0, "y": -300, "text": "Plus, parrainage, réglages et sécurité", "kind": "title1", "maxW": 2270, "page": "more"},
+    "t_english": {"x": 0, "y": -300, "text": "English versions — same screens, switchable in Settings", "kind": "title1", "maxW": 860, "page": "english"}
+  },
+  "designSystems": []
+}

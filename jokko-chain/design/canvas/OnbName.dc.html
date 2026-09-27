@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Votre nom</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#041612}
+a{color:#C9F17B}a:hover{color:#DDF7A6}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 16px 24px 36px; display: flex; flex-direction: column; font-family: 'Plus Jakarta Sans', sans-serif; color: #FFFFFF; background: linear-gradient(180deg, #041612 0%, #0C1F16 60%, #13281B 100%)">
+<div style="display: flex; align-items: center; gap: 16px">
+<a href="OnbCode.dc.html" aria-label="Retour" style="width: 44px; height: 44px; border-radius: 22px; background: #10241B; border: 1px solid #25402E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-sizing: border-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></a>
+<div aria-label="Étape 3 sur 6" style="flex-grow: 1; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px">
+<span style="height: 4px; border-radius: 2px; background: #C9F17B"></span><span style="height: 4px; border-radius: 2px; background: #C9F17B"></span><span style="height: 4px; border-radius: 2px; background: #C9F17B"></span><span style="height: 4px; border-radius: 2px; background: #2A402B"></span><span style="height: 4px; border-radius: 2px; background: #2A402B"></span><span style="height: 4px; border-radius: 2px; background: #2A402B"></span>
+</div>
+</div>
+<h1 style="margin: 32px 0 0; font-size: 28px; line-height: 1.2; font-weight: 800; letter-spacing: -0.4px">Comment vous appelez-vous ?</h1>
+<p style="margin: 10px 0 0; font-size: 15px; line-height: 1.5; font-weight: 500; color: #B3C4BA">Votre nom est visible par les personnes avec qui vous échangez des paiements, et figure sur vos reçus.</p>
+
+<label for="first" style="margin-top: 28px; font-size: 13px; font-weight: 700; color: #B3C4BA">Prénom</label>
+<input id="first" type="text" value="Awa" autocomplete="given-name" style="margin-top: 8px; height: 56px; box-sizing: border-box; padding: 0 16px; border-radius: 16px; border: 1px solid #2E4D36; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 17px; font-weight: 700; outline: none">
+<label for="last" style="margin-top: 18px; font-size: 13px; font-weight: 700; color: #B3C4BA">Nom</label>
+<input id="last" type="text" value="Diop" autocomplete="family-name" style="margin-top: 8px; height: 56px; box-sizing: border-box; padding: 0 16px; border-radius: 16px; border: 2px solid #C9F17B; background: #172B20; color: #FFFFFF; font-family: inherit; font-size: 17px; font-weight: 700; outline: none">
+
+<div style="flex-grow: 1"></div>
+<a href="OnbEmail.dc.html" style="height: 56px; border-radius: 28px; background: #C9F17B; color: #0B1A12; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; text-decoration: none">Continuer</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
