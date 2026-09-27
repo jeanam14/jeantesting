@@ -1,18 +1,5 @@
 # Jokko Chain — Project Instructions for Claude Code
 
-> **Scope of this file:** this whole repository (`jean-jokko/Jokko-test-claude`), which is
-> dedicated to Jokko Chain. The project started as the `jokko-chain/` folder of a shared
-> repository and moved here with its full history on 2026-09-27 (D25). Keep it self-contained
-> and movable (see `README.md` → "Portability").
->
-> **Resuming work?** Read `docs/HANDOFF.md` first, then `docs/conversation-log.md` (every
-> founder request so far, verbatim).
->
-> **Read first:** `docs/00-decision-log.md` (what has been decided, proposed, or is still open).
-> The rest of `docs/` holds the detailed architecture, security model, data model, provider
-> list, compliance guide, and roadmap. When this file and a doc disagree, the decision log wins
-> and the conflict must be fixed in the same change.
-
 ## What this is
 A non-custodial mobile crypto wallet for West/Central Africa (UEMOA/CEMAC) and the diaspora.
 Jokko Chain builds the interface only. Every fiat-touching, staking, swap, and lending action
@@ -20,34 +7,6 @@ is delegated to a regulated/specialized third-party provider. Jokko Chain never 
 of user funds at any point.
 
 **Platform:** Mobile only — iOS + Android, via Expo (React Native) + TypeScript.
-(An internal, staff-only admin console is also part of this project — see
-`docs/01-architecture.md`. It is never exposed to end users.)
-
-**Legal entity:** Jokko Chain SA, registered in Dakar, Senegal.
-
----
-
-## Engineering standard — this is financial infrastructure, not a side project
-
-Every change in this folder must meet these bars. They are not aspirations:
-
-1. **Security first.** Targets: OWASP MASVS L2 + resilience (mobile), OWASP ASVS L2 minimum,
-   L3 for anything touching signing, addresses, amounts, auth, or admin access. See
-   `docs/02-security.md`.
-2. **Everything documented.**
-   - Every exported function, class, type, and constant has a TSDoc comment explaining *what*
-     it does and *why* it exists (enforced by lint — `eslint-plugin-jsdoc`).
-   - Non-obvious logic gets inline comments explaining the *why*, not the *what*.
-   - Every package/app has a `README.md` (purpose, how to run, how to test, key decisions).
-   - Every architectural decision gets an entry in `docs/00-decision-log.md` (and an ADR in
-     `docs/adr/` once code exists).
-   - The backend API is described by a generated OpenAPI spec.
-3. **Tested.** Money, signing, address, and webhook code needs unit + property-based tests and
-   ≥ 90% branch coverage. Every provider adapter has contract tests against the provider sandbox.
-4. **Reviewed.** Security-sensitive paths (listed in `CODEOWNERS` once code exists) need two
-   approvals. No direct pushes to protected branches.
-5. **No shortcuts on the rules below** — if a rule blocks a feature, the feature changes, not
-   the rule.
 
 ---
 
@@ -57,22 +16,12 @@ These come from Jokko Chain's regulatory position (non-custodial → not a money
 Do not violate them even if a feature would be easier to build otherwise:
 
 1. **Never enable Privy delegated actions** (server-signed transactions on a user's behalf).
-   Every transaction must be signed client-side by the user. Privy's newer docs call this
-   mechanism **session signers** / "server-side access to user wallets" — same rule, whatever
-   the name: no signer other than the user's own device may ever be added to a user wallet.
+   Every transaction must be signed client-side by the user.
 2. **Never store or proxy user private keys** on our backend. Privy handles key generation
    and reconstitution client-side (Shamir's secret sharing + TEE) — our backend never sees them.
 3. The phone-number-send feature uses Privy's `importUser` / pregenerate-wallet flow: a wallet
-   is created for the recipient's phone number at send time, and Jokko Chain has no signing
-   authority over it before or after claim.
-   **Updated 2026-09-26 (founder decision D5, mechanism proposed — see
-   `docs/00-decision-log.md`):** sends to *non-users* must be refundable (sender can cancel
-   any time before claim; automatic refund after 48h). Funds therefore go into an immutable,
-   audited escrow contract bound to (sender, recipient pregenerated address, amount, expiry)
-   instead of straight to the pregenerated address. The contract has **no admin key and no
-   upgrade path**; its functions can only ever pay the bound recipient (claim) or the original
-   sender (cancel / refund). Jokko's keeper key may *trigger* claim/refund but can never choose
-   where funds go. Sends to existing Jokko users stay direct wallet-to-wallet (no escrow).
+   is created for the recipient's phone number at send time, funds go directly on-chain to that
+   address, and Jokko Chain has no signing authority over it before or after claim.
 4. Address screening (sanctions/illicit-activity checks) should be integrated before mainnet
    launch — provider TBD (Chainalysis / TRM Labs / Elliptic). Flag interactions, don't silently
    block, unless a hard sanctions match.
@@ -83,14 +32,6 @@ Do not violate them even if a feature would be easier to build otherwise:
    uses **self-custodial embedded wallets only** — flipping this setting, even accidentally,
    turns the wallet custodial and breaks the entire non-custodial/not-a-money-transmitter position
    this project is built on.
-7. **Jokko fees are never collected by holding user funds** (D17). A Jokko commission is either
-   (a) an explicit extra transfer to a Jokko fee address *inside the transaction the user signs*,
-   or (b) added and collected by the provider (ramp partner fee, LI.FI integrator fee, Everstake
-   revenue share) and paid out to Jokko. The app verifies the fee amount and destination before
-   signing. Details: `docs/09-fees-and-referrals.md`.
-8. **Company money and customer money never mix.** Jokko's own wallets (fee treasury — multisig;
-   rewards wallet for referral payouts — capped hot wallet) hold only company funds. They never
-   receive, route, or hold customer funds.
 
 **Note on naming:** "Bridge" (the Stripe company, our fiat ramp provider) and "bridging" (moving
 crypto assets between chains, e.g. Layerswap's job) are unrelated despite the shared word. Bridge
@@ -101,38 +42,30 @@ functionality.
 
 ## Chains and capability matrix
 
-Updated 2026-09-26 (D14, D15, D16). Six networks at launch; one EVM wallet covers Ethereum,
-Polygon and BNB Chain (same address). Feature availability differs per network — **do not build UI
-that implies a feature exists where the underlying protocol doesn't support it**:
+Wallet creation covers 4 chains via Privy. Feature availability differs per chain — **do not
+build UI that implies a feature exists where the underlying protocol doesn't support it**:
 
-| Network (user label) | Wallet | Gasless | Stake (Everstake) | Swap (LI.FI) | Borrow (Aave V3, after launch) | Card spend (after launch) |
-|---|---|---|---|---|---|---|
-| Ethereum (ERC20) | ✅ | ✅ EIP-7702 | ✅ ETH | ✅ | ✅ | ✅ |
-| Polygon | ✅ | ✅ EIP-7702 | ⏸ supported, **not shown at launch** (POL staking happens on Ethereum) | ✅ | ✅ | ✅ |
-| BNB Chain (BEP20) | ✅ (same EVM address) | ✅ EIP-7702 | ❌ not in scope | ✅ | ✅ (Aave V3 is deployed on BNB Chain) | ✅ Immersve lists BNB Chain |
-| Solana | ✅ | ✅ Kora fee relayer | ✅ SOL | ✅ | ❌ not deployed | ❌ convert to an EVM asset first |
-| Tron (TRC20) | ⚠ pending Privy confirmation (O1) | ⚠ only via energy delegation/rental (costly) | ❌ | ✅ | ❌ | ❌ convert first |
-| Bitcoin | ✅ | ❌ always pays a small BTC fee | ❌ no PoS | ✅ (via THORChain) | ❌ no smart contracts | ❌ convert first |
+| Chain    | Wallet | Stake (Everstake) | Swap/Bridge (Layerswap) | Borrow (Aave V3) | Card spend (Immersve/Rain) |
+|----------|--------|--------------------|--------------------------|-------------------|------------------------------|
+| Ethereum | ✅     | ✅                 | ✅                       | ✅                | ✅ |
+| Polygon  | ✅     | ✅                 | ✅                       | ✅                | ✅ |
+| Solana   | ✅     | ✅                 | ✅ (as bridge leg)       | ❌ not deployed   | ❌ not supported — convert to an EVM asset first |
+| Bitcoin  | ✅     | ❌ no PoS          | ✅ (as bridge leg)       | ❌ no smart contracts | ❌ not supported — convert to an EVM asset first |
 
-UI implication: staking shows ETH and SOL only at launch; Borrow only lists EVM networks.
+UI implication: hide the Stake tab for Bitcoin, hide the Borrow tab for Solana and Bitcoin.
 Store this as config (`chain_capabilities` table or static map), not hardcoded per-screen logic.
 
 ---
 
 ## Design direction
 
-Reference screenshots: screens from the existing (unfinished) dev build in `design/existing-build/`,
-plus Revolut screens in `design/reference/revolut/` for layout inspiration only (not our branding;
-personal data blurred before committing). Index and design notes: `design/README.md`.
+Reference screenshots: 8 screens from the existing (unfinished) dev build in `/design/existing-build/`,
+plus 2 Revolut screens in `/design/reference/` for layout inspiration only (not our branding).
 
 **Overall positioning:** this should feel like a neobank app, not a crypto app. Non-crypto users
-should never need to understand "gas" to use it. Lead with familiar financial-app language
-(balance, send, receive, buy, sell) over crypto jargon.
-**Updated 2026-09-26 (founder decision D7):** networks *are* shown to users, with familiar labels
-("Ethereum (ERC20)", "Polygon", "Solana", "Bitcoin") and a **Recommended** tag on the cheapest
-suitable network. Same asset on several networks → grouped row with a one-tap **Consolidate**
-action. Jokko-to-Jokko sends pick the network automatically. Details: `docs/01-architecture.md`
-→ "Networks and assets".
+should never need to understand "chains" or "gas" to use it — those are implementation details,
+not user-facing concepts. Lead with familiar financial-app language (balance, send, receive, buy,
+sell) over crypto jargon.
 
 **Home screen:**
 - Keep: Total Balance header, Buy/Send/Receive/Sell action row, per-asset balance list below
@@ -145,11 +78,8 @@ action. Jokko-to-Jokko sends pick the network automatically. Details: `docs/01-a
 conversation-style thread (message bubbles, not a flat transaction list) — pure UI/data-modeling
 change, group `transactions` by counterparty in the query layer, no new provider involved.
 
-**Branding:** dark green background, lime green as the primary accent, Jokko Chain
-logo/wordmark as shown in the Card waitlist screen. Colours sampled from the existing-build
-screenshots (2026-09-26) — lime ≈ `#C9F17B`, background gradient ≈ `#041612` → `#162B1D`;
-full token list in `design/README.md`. Screenshot sampling is approximate (image compression);
-confirm against the source design files before locking tokens.
+**Branding:** dark green background, lime green (`#c6f24e`-ish, sample exact hex from the existing
+build's assets) as the primary accent, Jokko Chain logo/wordmark as shown in the Card waitlist screen.
 
 ---
 
@@ -179,11 +109,6 @@ Particle Network entry in the provider map above. Recommendation: phase 2, not v
 
 ## Provider map
 
-> Original provider map, kept for history. **Current, complete list (including the providers
-> that were missing here): `docs/05-providers-and-tools.md`.** Where they differ, the doc wins.
-> Decided 2026-09-26: **LI.FI** replaces Layerswap + 1inch/0x/Jupiter (D2). Fonbnk's public
-> materials now list settlement on Polygon/Ethereum/Solana among others (to confirm in writing).
-
 | Function | Provider | Chains | Notes |
 |---|---|---|---|
 | Wallet infra / key management | **Privy** | ETH, Polygon, Solana, Bitcoin | Non-custodial, key-split + TEE. Pregenerate wallets for phone-send. |
@@ -202,11 +127,6 @@ Particle Network entry in the provider map above. Recommendation: phase 2, not v
 ---
 
 ## Backend & infra
-
-> Proposed updates (hosting, ORM, queue, notifications, admin console) are in
-> `docs/01-architecture.md` and `docs/05-providers-and-tools.md`. The full data model —
-> including the tables missing below (`transactions`, `webhook_events`, `audit_log`, …) — is in
-> `docs/04-data-model.md`.
 
 | Layer | Choice |
 |---|---|
@@ -234,9 +154,6 @@ Particle Network entry in the provider map above. Recommendation: phase 2, not v
 
 ## Build phases
 
-> Superseded by `docs/07-roadmap.md`, which reflects the founder's launch scope (D1: top-up /
-> withdrawal, send / receive, swap, staking behind a flag).
-
 1. **Repo setup** — Expo + TypeScript scaffold, this CLAUDE.md, testnet config for all providers
 2. **Auth + wallet creation** — phone/OTP login, Privy wallet creation, pregenerated wallets for phone-send
 3. **On/off-ramp** — IvoryPay + Fonbnk (XOF/XAF) and Bridge (USD/EUR), webhook handling, status screens
@@ -248,8 +165,7 @@ Particle Network entry in the provider map above. Recommendation: phase 2, not v
 ---
 
 ## Design reference
-Screenshots live in `design/existing-build/<screen-name>/<state>.<ext>` (empty, loaded, error per
-screen) and `design/reference/<source>/<screen>.<ext>`.
+Screenshots live in `/design/<screen-name>/<state>.png` (empty, loaded, error per screen).
 Treat them as **visual reference only** — rebuild natively in Expo/React Native components,
 do not port any web/Lovable-generated code.
 
@@ -368,30 +284,17 @@ This app will grow features that aren't decided yet. Build accordingly, not just
 ---
 
 ## Open items — needs founder input before/during build
-
-> Live status is tracked in `docs/00-decision-log.md`. This checklist mirrors it as of 2026-09-26.
-
-- [ ] Confirm IvoryPay and Fonbnk actual XOF/XAF country coverage (replaces earlier Yellow Card/Transak assumption in compliance drafts) — Fonbnk's public docs list Senegal + Côte d'Ivoire; XAF and IvoryPay still unconfirmed → questions in `docs/08-provider-questions.md`
-- [ ] Address screening provider decision (Chainalysis / TRM / Elliptic) — proposal: Chainalysis free sanctions API at launch, full KYT before scale (`docs/05-providers-and-tools.md`)
-- [x] Feature order for v1 — **decided (D1):** launch = top-up/withdrawal, send/receive, swap, staking (behind a flag)
-- [x] Referral program — **decided (D22):** at launch; referrer earns $5 in USDC when the invited friend tops up (configurable)
-- [ ] App bundle identifier (iOS + Android) — proposal: `com.jokkochain.app` (+ `.dev` / `.staging` suffixes per environment)
-- [x] Registered entity — **decided (D4):** Jokko Chain SA, Dakar, Senegal (Apple org enrollment needs its D-U-N-S number)
-- [x] Same-chain swap — **decided (D2):** consolidate on LI.FI
-- [x] Multi-source pull — phase 2 (not in launch scope D1)
+- [ ] Confirm IvoryPay and Fonbnk actual XOF/XAF country coverage (replaces earlier Yellow Card/Transak assumption in compliance drafts)
+- [ ] Address screening provider decision (Chainalysis / TRM / Elliptic)
+- [ ] Feature order for v1: all four core features at once, or phased (ramp + wallet core first)?
+- [ ] Referral program — in v1 scope or later?
+- [ ] App bundle identifier (iOS + Android)
+- [ ] Registered entity name + jurisdiction for Privy/Bridge KYB (or confirm sandbox-only for now)
+- [ ] Same-chain swap: 1inch/0x + Jupiter alongside Layerswap, or consolidate everything onto LI.FI?
+- [ ] Multi-source pull (Particle Network Universal Accounts): confirm phase 2, or must-have for v1?
 - [ ] Confirm with existing dev team whether their build ever wired up Solana and Bitcoin — current screenshots only show Ethereum/Polygon/BNB Smart Chain assets
 - [ ] Existing dev team's code: hand off to Claude Code once received, or keep it out to avoid biasing the rebuild (per founder's current preference)
 - [ ] **Julaya cash top-up: resolve the liquidity question (Option A vs B above) — this affects Jokko's regulatory position, not just implementation**
 - [ ] Pick one card on-ramp: Transak, MoonPay, Ramp Network, or Banxa
 - [ ] Card issuing provider: confirm Immersve or Rain's UEMOA/CEMAC coverage (best fit — wallet-linked, real-time crypto spend), vs UPay's white-label availability (unconfirmed), vs building on Union54 (non-crypto rails, more build work)
 - [ ] Business account ("Jokko for Business") scope — not yet defined beyond a waitlist
-- [x] Wallet type — **decided (D14):** EIP-7702
-- [x] Security-level thresholds — **decided (D13)**, without a new-device waiting period
-- [x] Hosting + tools — **decided (D18):** AWS Paris + the list in `docs/05-providers-and-tools.md`
-- [x] Networks — **decided (D15):** + BNB Chain (BEP20) and Tron (TRC20, pending Privy)
-- [x] Jokko commissions on every product — **decided (D17)** → `docs/09-fees-and-referrals.md`
-- [ ] **New — blocking Privy setup:** login codes by SMS or WhatsApp (Privy allows one only, permanently) → O12, recommendation P15 (SMS via our own Twilio)
-- [ ] **New:** Privy plan — Scale or Enterprise needed for African SMS / WhatsApp login
-- [ ] **New:** fee levels per product (business setting, in admin) → O13
-- [ ] **New:** onboarding flow details (P13, P14) and bottom navigation (P10) → confirm
-- [ ] **New:** legal opinion from Senegalese counsel on PSAV status under the UEMOA uniform AML law → `docs/06-compliance-and-marketing.md`

@@ -1,17 +1,49 @@
 # Handoff — where the build stopped and how to resume
 
-_Last updated: 2026-09-27. Branch: `claude/eager-mayer-hx3a07`._
+_Last updated: 2026-09-27. Repository: `jean-jokko/Jokko-test-claude` (see §0)._
 
 This file tells the next person (or Claude session) exactly what exists, what state it is in,
-and what to do next. Read it after `CLAUDE.md` and `docs/00-decision-log.md`.
+and what to do next. Read it after `CLAUDE.md` and `docs/00-decision-log.md`. Every founder
+request so far is quoted in `docs/conversation-log.md`.
+
+---
+
+## 0. Moving to the new repository (2026-09-27, D25)
+
+The founder moved the project to their enterprise Claude and GitHub accounts.
+
+- **Before the move:** the project lived in the `jokko-chain/` folder of the founder's
+  personal repository `jeanam14/jeantesting`, branch `claude/eager-mayer-hx3a07`. That copy is
+  now a **frozen backup**. Don't develop there.
+- **After the move:** this repository, `jean-jokko/Jokko-test-claude`. It was imported from a
+  git bundle with the full history of that folder, which is now the repository root. No file
+  here refers to the old location, except as history.
+- **The conversation itself** cannot move between Claude accounts. What it contains is here:
+  - decisions: `docs/00-decision-log.md`;
+  - every founder request, verbatim: `docs/conversation-log.md`;
+  - the original spec: `docs/archive/original-spec-2026-09-25.md`.
+
+  The founder also keeps a readable transcript of the whole conversation
+  (`jokko-conversation-transcript.md`). Upload it to a session when the full reasoning behind
+  an answer is needed.
+- **The design** was published in the founder's personal claude.ai account. Its link won't
+  open for the enterprise account unless it is shared. The complete source is in the repo:
+  screens in `design/canvas/`, images in `design/assets/`. To get the design under the
+  enterprise account, republish it from those files: create a new "Design" artifact, upload
+  the two images, and swap their IDs in `CardWaitlist.dc.html` (see `design/README.md`).
+- **The cloud environment** has to be set up again in the enterprise account: network access,
+  and the Postgres steps in §6. There were no secrets and no provider accounts yet, so nothing
+  else needs moving.
+- Commit messages from before the move end with `Claude-Session:` links to sessions in the old
+  account. They are harmless, but they won't open for the enterprise account.
 
 ---
 
 ## 1. What the founder asked for (current scope)
 
 1. **Design first:** done. The design canvas has 37 screens (FR/EN, dark green and lime). Link:
-   <https://claude.ai/artifact/HqY939QpvWoTGgixTbwjG7>. It is **private**, so share it from
-   claude.ai before anyone else can open it. Its source is copied in `design/canvas/`.
+   <https://claude.ai/artifact/HqY939QpvWoTGgixTbwjG7>. It is **private** to the founder's
+   personal account (see §0). Its full source is in `design/canvas/` and `design/assets/`.
 2. **Then a basic app (D23):** the Privy wallet is real, and every other feature is shown but
    runs in demo mode. **Not started.** It waits for the founder to approve the design.
 3. **"Prepare the whole database and backend as well":** **in progress** (see §3).
@@ -37,8 +69,9 @@ tests).
 | Mobile app (`apps/mobile`) | Not started (waits for design approval). | — |
 | CI | Not started. | — |
 
-Git history on this branch: `b79aa93` → `4d5f66b` → `44e7da0` → `8e49eec`, then the handoff
-commit that adds this file.
+Commit history: `b79aa93` → `4d5f66b` → `44e7da0` → `8e49eec` → `927b4c8` (this handoff),
+then the move-preparation commit. Commit IDs change when history is exported to the new
+repository; the commit messages stay the same.
 
 ---
 
@@ -187,15 +220,12 @@ Design already settled during the build; implement as follows.
   `phone_send.sweep` (safety net for invites past expiry).
 
 ### Task 8: CI, documentation and wrap-up
-- CI workflow:
-  - Put it at the repo root as `.github/workflows/jokko-chain-ci.yml`, with a path filter on
-    `jokko-chain/**`, a Postgres 16 service, and `pnpm check`.
-  - Keep a copy in `jokko-chain/.github/workflows/` for portability.
+- CI workflow: `.github/workflows/ci.yml`, with a Postgres 16 service, running `pnpm check`.
+  The repository is dedicated to this project, so no path filter is needed.
 - Documentation:
   - READMEs for `apps/api` and the `providers`.
   - ADR `docs/adr/0002-postgres-job-queue.md` (Postgres queue instead of BullMQ/Redis).
-- Update `docs/00-decision-log.md` (D24: database and backend built now) and
-  `docs/07-roadmap.md`.
+- Update `docs/07-roadmap.md` (D24 is already in the decision log).
 
 ---
 
@@ -216,6 +246,11 @@ Design already settled during the build; implement as follows.
   person checks each one against the issuer's docs (`packages/core/src/assets/assets.ts`).
 - **No fee schedules are seeded.** Fee levels are the founder's decision (O13), set in the
   admin console.
+- **Job queue differs from D18.** D18 (accepted proposal P9) lists Redis/BullMQ. The code uses
+  a Postgres job queue and transactional outbox instead, so a job is only ever created when the
+  money change that causes it commits. This is an engineering change to a decided item: record
+  it as a proposal (with ADR 0002) and get the founder's OK before relying on it in
+  production.
 
 ---
 
@@ -243,7 +278,7 @@ The container used for this build had no Postgres running by default.
 sudo pg_ctlcluster 16 main start
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';"
 
-cd jokko-chain
+# from the repository root
 pnpm install            # pnpm 10.33.0, Node 22 (see .nvmrc)
 pnpm check              # format, lint, build, typecheck, all tests
 ```

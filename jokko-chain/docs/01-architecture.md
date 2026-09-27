@@ -47,7 +47,7 @@ Status: **agreed direction** (no code yet). IDs like D5 / P1 refer to `00-decisi
                                                                    └──────────────────┘
 ```
 
-## 3. Repository layout (inside `jokko-chain/`)
+## 3. Repository layout
 
 ```
 apps/
@@ -68,7 +68,7 @@ docs/            This documentation, plus docs/adr/ once code exists
 design/          Screenshots and tokens
 ```
 
-Package manager: **pnpm** workspaces with **Turborepo**, all rooted in `jokko-chain/`.
+Package manager: **pnpm** workspaces with **Turborepo**, all rooted at the repository root.
 
 ## 4. Technology choices
 

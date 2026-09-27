@@ -32,8 +32,8 @@ for launch known. Counsel engaged.
 
 ## Phase 1 — Foundations
 
-- Monorepo (pnpm + Turborepo) inside `jokko-chain/`, strict TypeScript, lint (incl. TSDoc
-  enforcement), formatting, tests, CI workflow (root file filtered to `jokko-chain/**`).
+- Monorepo (pnpm + Turborepo) at the repository root, strict TypeScript, lint (incl. TSDoc
+  enforcement), formatting, tests, CI workflow in `.github/workflows/`.
 - Security baseline in CI: Semgrep/CodeQL, gitleaks, OSV/Socket, CODEOWNERS, branch protection.
 - `packages/core`: money types (bigint base units, decimal fiat, XOF/XAF 0-decimals), chain +
   asset registry (6 networks), capability map, the transaction-pipeline skeleton, **fee engine**

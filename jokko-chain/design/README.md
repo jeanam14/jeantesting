@@ -54,6 +54,20 @@ as `#C9F17B`**: identical on the logo, the "Join Waitlist" button, the card illu
 **Logo:** lime "J" mark + "Jokko Chain" wordmark (`card-waitlist/default.webp`). Vector source
 files (SVG) are needed from the designer. Don't trace from screenshots.
 
+**Images used by the design canvas** (`design/assets/`). These are raster PNGs of the logo and
+the card illustration from the existing build. They are fine for mock-ups, but they are not
+production artwork: the vector source is still needed from the designer.
+
+| File | Used on | Upload ID in the original design artifact |
+|---|---|---|
+| `assets/logo-wordmark.png` | Card waitlist header | `/_blob/4a608fbb57a674ee4cb6f6d9f01f8e96` |
+| `assets/card-visual.png` | Card waitlist illustration | `/_blob/fe746ef8ec7e5a2487aae41d1e8be82f` |
+
+The screens in `design/canvas/` still point at those upload IDs, because the design tool stores
+images in the published design, not next to the screens. When republishing the design under
+another account (see `docs/HANDOFF.md`), upload both images again and replace the two IDs in
+`canvas/CardWaitlist.dc.html` with the new ones.
+
 ## 3. Two languages everywhere (D20)
 
 - **Every** visible string goes through `packages/i18n`: screens, errors, notifications,

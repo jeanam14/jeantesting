@@ -25,7 +25,7 @@ add a "Superseded by" note instead.
 | D6 | 2026-09-26 | **Security and recovery:** phone number stays the primary login/recovery. Email can be added (optional). Passkey, biometrics, and iCloud / Google backup are offered. | `03-onboarding-and-recovery.md` |
 | D7 | 2026-09-26 | **Networks are visible to users** with familiar labels. An asset appears once its balance is above zero (allowlisted tokens only). The same asset on several networks gets a **Consolidate** action. | `01-architecture.md` §7. Network list extended by D15 |
 | D8 | 2026-09-26 | **Network recommendation:** under ~$20 → recommend Polygon; larger → user chooses, Polygon still tagged **Recommended**. Users are never blocked from choosing another network. | Made fee-aware in P6 |
-| D9 | 2026-09-26 | **Project isolation:** everything lives in `jokko-chain/`, portable to its own repository and environments. | `README.md` → "Portability" |
+| D9 | 2026-09-26 | **Project isolation:** everything lives in `jokko-chain/`, portable to its own repository and environments. | `README.md` → "Portability". Carried out on 2026-09-27: see D25 |
 | D10 | 2026-09-26 | **Quality bar:** highest security standard; every piece of code documented and commented. | `CLAUDE.md` → "Engineering standard" |
 | D11 | 2026-09-26 | **Admin dashboard required** for monitoring, reporting and marketing lists with advanced filters and export. | Refined by D19 (one dashboard) |
 | D12 | 2026-09-26 | **Notification channels:** push, email, SMS, WhatsApp. | `05-providers-and-tools.md` |
@@ -40,6 +40,8 @@ add a "Superseded by" note instead.
 | D21 | 2026-09-26 | **Fix the design issues found in the existing build during the rebuild.** Includes P11 (security alerts always on) and P12 (Invest wording). | Checklist in `design/README.md` |
 | D22 | 2026-09-26 | **Referral programme at launch:** invite a friend; when the friend tops up, the referrer earns **$5** (paid in USDC). Amount and rules configurable. | `09-fees-and-referrals.md` Part 2. Resolves O9 |
 | D23 | 2026-09-27 | **Build order: design first, then a "wallet shell" app.** Step A: every screen designed on a shared design canvas (FR + EN, fixes from `design/README.md` applied) and approved. Step B: the Expo app with the **real Privy wallet** (login, wallets, addresses, testnet balances, testnet send/receive, app lock, FR/EN) and **every other feature visible in demo mode** (sample data, clearly labelled, not connected to any provider). Testnets only | `07-roadmap.md`, `10-setup-checklist.md` |
+| D24 | 2026-09-27 | **Build the whole database and backend now**, alongside the design (not after the wallet shell). Database layer and API foundation done; feature modules, admin API and workers next. | `docs/HANDOFF.md` |
+| D25 | 2026-09-27 | **The project moves to its own repository, `jean-jokko/Jokko-test-claude`, under the founder's enterprise Claude and GitHub accounts.** The project folder becomes the repository root, with its full git history. The old copy (`jeanam14/jeantesting`, branch `claude/eager-mayer-hx3a07`) is a frozen backup: don't develop there any more. | `docs/HANDOFF.md` → "Moving to the new repository", `docs/conversation-log.md` |
 
 ---
 

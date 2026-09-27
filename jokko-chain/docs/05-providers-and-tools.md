@@ -78,7 +78,7 @@ be confirmed in writing with the provider (`08-provider-questions.md`).
 | Product analytics | **PostHog** (EU cloud) | — | Decided (spec) | No personal data; consent-aware |
 | Admin dashboard (one tool, D19) | Custom (**Next.js**) in this monorepo, with **Metabase** charts embedded (signed, read-only) | Retool, Forest Admin | Decided (D19) | List builder + exports built natively (consent, masking, export log). See `01` §10 |
 | Mobile builds / releases | **Expo EAS** Build + Submit (+ Update with code signing, or disabled in prod) | — | Decided (spec) | — |
-| CI/CD | **GitHub Actions** | — | Decided (spec) | Root workflow filtered to `jokko-chain/**` |
+| CI/CD | **GitHub Actions** | — | Decided (spec) | Workflows in `.github/workflows/` (dedicated repository since D25) |
 | Feature flags | Own Postgres tables | PostHog flags | Decided (spec) | Kill switches included |
 | Referral attribution | Own referral codes + deep links; **Google Play Install Referrer** (Android) to pre-fill codes | Branch, AppsFlyer | Proposed | Avoids another tracking vendor at launch; add an attribution tool later if paid campaigns need it |
 | Translations | **i18next** + JSON in repo | Lokalise, Crowdin (when translators join) | Proposed | French default |
