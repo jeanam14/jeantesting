@@ -23,6 +23,7 @@ console. Built by **Jokko Chain SA** (Dakar, Senegal).
 | See build phases and launch scope | [`docs/07-roadmap.md`](docs/07-roadmap.md) |
 | Send questions to providers | [`docs/08-provider-questions.md`](docs/08-provider-questions.md) |
 | Understand Jokko's commissions and the referral programme | [`docs/09-fees-and-referrals.md`](docs/09-fees-and-referrals.md) |
+| Create the accounts needed to build (Privy, Expo, Apple…) | [`docs/10-setup-checklist.md`](docs/10-setup-checklist.md) |
 | See design references and colour tokens | [`design/README.md`](design/README.md) |
 
 ## Folder layout

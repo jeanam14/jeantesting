@@ -39,6 +39,7 @@ add a "Superseded by" note instead.
 | D20 | 2026-09-26 | **The app is fully bilingual (French + English)**, language switchable any time in Settings; default follows the phone's language (French for UEMOA/CEMAC). | `design/README.md` |
 | D21 | 2026-09-26 | **Fix the design issues found in the existing build during the rebuild.** Includes P11 (security alerts always on) and P12 (Invest wording). | Checklist in `design/README.md` |
 | D22 | 2026-09-26 | **Referral programme at launch:** invite a friend; when the friend tops up, the referrer earns **$5** (paid in USDC). Amount and rules configurable. | `09-fees-and-referrals.md` Part 2. Resolves O9 |
+| D23 | 2026-09-27 | **Build order: design first, then a "wallet shell" app.** Step A: every screen designed on a shared design canvas (FR + EN, fixes from `design/README.md` applied) and approved. Step B: the Expo app with the **real Privy wallet** (login, wallets, addresses, testnet balances, testnet send/receive, app lock, FR/EN) and **every other feature visible in demo mode** (sample data, clearly labelled, not connected to any provider). Testnets only | `07-roadmap.md`, `10-setup-checklist.md` |
 
 ---
 

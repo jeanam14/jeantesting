@@ -4,6 +4,16 @@ Status: **agreed direction**, built around launch scope D1 (top-up / withdrawal,
 swap, staking behind a flag) + referral programme (D22) + Jokko fees (D17). Supersedes the "Build phases" in `CLAUDE.md`. Phases overlap where they
 don't depend on each other. Each phase ends only when its exit criteria are met and documented.
 
+## Build order agreed with the founder (D23, 2026-09-27)
+
+| Step | What you get | Covers |
+|---|---|---|
+| **A. Design** | Every screen of the app on a shared design canvas (phone artboards, French + English, all fixes from `design/README.md` applied). Reviewed and approved screen by screen before any screen is coded | Design for all phases |
+| **B. Wallet shell** | The real Expo app on testnets. **Real:** Privy login, wallet creation, receive addresses + QR, balances, send/receive on test networks, app lock, FR/EN switch, settings. **Demo mode:** top-up/withdraw, swap, staking, payments threads, referral, card/business waitlists, shown with sample data and clearly labelled « Démo ». No backend needed yet | Phase 1 + the wallet part of Phase 2 |
+| **C onwards** | Backend, then each feature connected one by one (ramps + referral, swap, staking, phone-send escrow), following the phases below | Phases 2–7 |
+
+Demo mode is a feature flag that can never be on in a production build (enforced in CI).
+
 ## Phase 0 — Decisions and external input (now, in parallel with Phase 1)
 
 - Founder confirms the remaining proposals (`00-decision-log.md`) and **the login channel (O12:
