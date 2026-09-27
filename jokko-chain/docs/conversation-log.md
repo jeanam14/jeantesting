@@ -163,3 +163,26 @@ _Attached: a screenshot of the new session's repository picker showing `jean-jok
   backup.
 - The founder received three files for the new session: the git bundle, a readable transcript
   of the whole conversation, and import instructions.
+
+## 9. 2026-09-27 10:55 UTC
+
+> ok and you made sure that everything you built is logged and that what's left is logged too?
+
+**What came out of it**
+
+- Claude checked the repository against the docs instead of assuming, and found gaps:
+  - no file-by-file inventory of what was built;
+  - the roadmap did not show progress;
+  - the handoff's next steps covered only the backend;
+  - `docs/04-data-model.md` still described the original plan in several places: table names,
+    the job queue, fiat column types, role names.
+- All fixed:
+  - `docs/HANDOFF.md` now has an inventory of every file with its test status, and a section
+    on everything left beyond the backend;
+  - `docs/07-roadmap.md` has a progress table;
+  - the data-model doc matches the code and records each difference from the plan;
+  - the architecture and providers docs flag the job-queue change that still needs founder
+    sign-off (D18).
+- The export files were rebuilt from the updated repository and re-verified from a clean
+  install.
+
