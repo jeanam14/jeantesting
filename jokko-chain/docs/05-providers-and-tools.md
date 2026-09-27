@@ -70,7 +70,7 @@ be confirmed in writing with the provider (`08-provider-questions.md`).
 | Cloud hosting | **AWS eu-west-3 (Paris)**: ECS Fargate, RDS PostgreSQL (Multi-AZ), ElastiCache Redis, KMS, Secrets Manager, WAF, CloudTrail, GuardDuty | GCP; Fly.io/Railway + Neon + Upstash (faster MVP, later migration) | Proposed (P8) | One AWS account per environment |
 | Infrastructure as code | **Terraform** | Pulumi, AWS CDK | Proposed | Every resource in code, reviewed |
 | Database | **PostgreSQL 16+** (RDS) + **Drizzle** ORM | Prisma, Kysely | Proposed (P9) | SQL migrations reviewed |
-| Queue / jobs | **BullMQ** on Redis + outbox table | AWS SQS | Proposed | — |
+| Queue / jobs | **BullMQ** on Redis + outbox table. As built: Postgres queue + outbox (`jobs` table), founder sign-off pending | AWS SQS | Proposed | `docs/HANDOFF.md` §4 |
 | Secrets | **AWS Secrets Manager** | Doppler | Proposed | Never `.env` in git |
 | Errors | **Sentry** (EU data region) | — | Decided (spec) | Personal data scrubbed |
 | Logs / metrics / traces | **Grafana Cloud**, via OpenTelemetry | Datadog | Proposed | Lower cost at our scale; OpenTelemetry keeps switching cheap |

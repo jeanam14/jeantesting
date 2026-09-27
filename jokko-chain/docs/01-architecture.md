@@ -79,7 +79,7 @@ Package manager: **pnpm** workspaces with **Turborepo**, all rooted at the repos
 | Backend | NestJS on the Fastify adapter (P9) | DI modules map 1:1 to adapters; Fastify performance |
 | Database | PostgreSQL 16+ (AWS RDS, Multi-AZ, encrypted, point-in-time recovery) | Relational integrity for money-adjacent records |
 | ORM / migrations | Drizzle ORM, SQL migrations reviewed in PRs | SQL-first, explicit, no hidden queries |
-| Jobs / queue | Redis (ElastiCache) + BullMQ, with a transactional outbox table | Reliable side effects (notifications, refunds) that never fire twice |
+| Jobs / queue | Redis (ElastiCache) + BullMQ, with a transactional outbox table. **As built: a Postgres job queue + outbox in one table (`jobs`), founder sign-off pending, `docs/HANDOFF.md` §4** | Reliable side effects (notifications, refunds) that never fire twice |
 | Hosting | AWS eu-west-3 (Paris) — ECS Fargate, RDS, ElastiCache, KMS, Secrets Manager, WAF, CloudTrail, GuardDuty — all in Terraform (P8) | Fintech-grade controls from day one. Paris is the closest major AWS region to Dakar and inside GDPR; cross-border data transfer from Senegal to be confirmed by counsel (see `06`) |
 | Smart contracts | Solidity, Foundry, OpenZeppelin, Slither + external audit | Escrow only (P2); nothing else on-chain is Jokko-owned |
 | Admin | Next.js + our API (admin scope), Metabase on a read replica | See §10 |

@@ -74,6 +74,67 @@ Commit history: `b79aa93` → `4d5f66b` → `44e7da0` → `8e49eec` → `927b4c8
 then the move-preparation commit. Commit IDs change when history is exported to the new
 repository; the commit messages stay the same.
 
+### File inventory (every file in the repository)
+
+**Legend**
+- **Tested:** built and covered by automated tests.
+- **Built:** compiles and passes lint, but has no tests yet.
+- **Not wired:** built, but not connected to any running server yet.
+- **Config:** tooling or configuration.
+
+**Root**
+
+| Files | What they are | State |
+|---|---|---|
+| `package.json` | Workspace scripts, including `pnpm check` (format → build → lint → typecheck → test) | Config |
+| `pnpm-workspace.yaml`, `pnpm-lock.yaml` | Workspace, exact versions, 24 h release-age rule | Config |
+| `tsconfig.base.json`, `eslint.config.js` | TypeScript and lint rules (TSDoc required, no float parsing, no `Math.random`) | Config |
+| `.prettierrc.json`, `.prettierignore`, `.editorconfig`, `.nvmrc`, `.gitignore` | Formatting, Node 22, ignores | Config |
+| `CLAUDE.md`, `README.md` | Project rules; overview | Docs |
+
+**`packages/core`: shared rules library, used by the server and later the app**
+
+| Files | What they are | State |
+|---|---|---|
+| `src/money/decimal.ts`, `fiat.ts`, `convert.ts`, `format.ts` | Exact amounts in `bigint`, currencies, crypto ↔ FCFA conversion, FR/EN formatting | Tested |
+| `src/networks/networks.ts`, `src/assets/assets.ts` | The 6 networks and the token allowlist (addresses still `pending-review`) | Tested |
+| `src/addresses/addresses.ts` | Address validation for all networks; look-alike detection | Tested |
+| `src/capabilities/capabilities.ts` | What each network can do; kill switches can only narrow it | Tested |
+| `src/fees/fees.ts` | Jokko fee engine (matching, %/fixed/min/max, pre-signing check) | Tested |
+| `src/security/security-levels.ts`, `src/phone/phone.ts` | Security levels and thresholds (D13); phone parsing and masking | Tested |
+| `src/errors.ts`, `src/index.ts` | Error type; public exports | Tested |
+
+Core coverage: 97.7% of statements, 93.8% of branches.
+
+**`apps/api`: backend (public API, admin API, workers)**
+
+| Files | What they are | State |
+|---|---|---|
+| `src/database/schema/*.ts` (`enums`, `identity`, `chain`, `money`, `platform`, `admin`, `index`) | All 53 tables | Tested: every table is created on real Postgres, and the key protections have their own tests |
+| `src/database/columns.ts`, `db.ts` | Money column types; connection pool | Tested |
+| `drizzle/0000–0002*.sql`, `drizzle/meta/*`, `drizzle.config.ts` | Migrations: schema, security hardening, rate-limit buckets | Tested |
+| `src/database/migrate.ts`, `seed.ts` | Migration runner; idempotent seed | Tested |
+| `src/database/sql/roles-and-grants.sql` | Least-privilege database roles (run by infrastructure, not a migration) | Built |
+| `test/database/schema.test.ts`, `test/global-setup.ts`, `test/support/database.ts`, `vitest.config.ts` | 12 database tests on real Postgres | Tested |
+| `src/config/env.ts` | Environment validation with production safety rules | Built |
+| `src/common/crypto/field-encryption.ts` | AES-256-GCM personal-data encryption, blind indexes | Built |
+| `src/common/{jobs,idempotency,audit,app-config,rate-limit}.service.ts` | Job queue, idempotency, audit writer, flags and config cache, shared rate limits | Built (`rate-limit` not registered in `CoreModule` yet) |
+| `src/common/{errors,clock,tokens,ids,semver}.ts`, `src/common/http/*` | Error model, clock, DI tokens, UUIDv7, versions, exception filter, validation | Built |
+| `src/common/core.module.ts` | Wires the shared services | Built |
+| `src/auth/*` (`privy-token.verifier`, `user-auth.guard`, `decorators`, `device-headers`, `request-context`, `attestation`) | Login check, access rules | Not wired |
+| `src/providers/http.ts`, `src/providers/privy/privy-server.api.ts` | Safe outbound HTTP; Privy server adapter (flags delegated or imported wallets) | Not wired |
+| `package.json`, `tsconfig*.json` | Scripts, dependencies | Config. **No `README.md` yet** (task 8) |
+
+**Design and docs**
+
+| Files | What they are |
+|---|---|
+| `design/canvas/*.dc.html`, `canvas.json` | 37 screens, identical to the published design |
+| `design/assets/*.png` | Logo and card images used by the screens |
+| `design/existing-build/**`, `design/reference/revolut/*-redacted.png` | Reference screenshots (personal data blurred) |
+| `design/README.md` | Colour tokens, FR/EN rules, fix checklist, image mapping |
+| `docs/00`–`10`, `HANDOFF.md`, `conversation-log.md`, `archive/original-spec-2026-09-25.md` | Decisions, architecture, security, onboarding, data model (updated to match the code), providers, compliance, roadmap (with progress), provider questions, fees and referrals, setup checklist, this file, founder requests, original spec |
+
 ---
 
 ## 3. Next steps, in order
@@ -227,6 +288,31 @@ Design already settled during the build; implement as follows.
   - READMEs for `apps/api` and the `providers`.
   - ADR `docs/adr/0002-postgres-job-queue.md` (Postgres queue instead of BullMQ/Redis).
 - Update `docs/07-roadmap.md` (D24 is already in the decision log).
+
+### Beyond the backend: the rest of the project
+
+The backend tasks above are only part of what's left. Everything else is planned in
+`docs/07-roadmap.md` (Phases 0–7 plus "After launch"), with a progress table at the top.
+The main remaining workstreams:
+
+- **Mobile app (Step B, D23):** Expo shell, the real Privy wallet, demo mode for everything
+  else. Also `packages/i18n` (FR/EN) and `packages/ui` (design tokens). Starts once the founder
+  approves the design.
+- **Admin console screens (`apps/admin`):** staff UI on top of the admin API (task 7), with
+  Metabase charts embedded (D19).
+- **Blockchain indexer:** watches the networks (QuickNode, TronGrid) and fills `transactions`
+  and `balance_snapshots`. History, payment threads, push notifications and referral checks
+  depend on it (Phase 2).
+- **Real provider adapters:** CoinGecko prices (`parseJsonNumberText` in core is ready for
+  exact parsing), Fonbnk, IvoryPay, Bridge, LI.FI, Everstake, Chainalysis, Twilio, FCM/APNs and
+  Brevo. The ramp adapters wait for provider answers (`08-provider-questions.md`).
+- **Phone-send escrow contract (`contracts/`):** Solidity with Foundry, then an external audit
+  before mainnet (Phase 6, P2).
+- **Infrastructure (`infra/`):** Terraform for AWS `dev`, `staging` and `prod`, secrets,
+  deploys.
+- **CI security gates:** Semgrep/CodeQL, gitleaks, OSV/Socket, CODEOWNERS, branch protection.
+- **Launch work (Phase 7):** pen test, Privy configuration audit, legal texts in the app, app
+  store submissions, closed beta.
 
 ---
 

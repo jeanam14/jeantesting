@@ -1,8 +1,29 @@
 # Data model
 
-Status: **proposed**. This is the complete starting schema for PostgreSQL. It replaces the
-"Suggested DB tables" list in `CLAUDE.md`. Columns shown are the important ones, not every
-column. The exact types are decided in the migration PRs.
+Status: **implemented (2026-09-27, D24)**. It replaces the "Suggested DB tables" list in
+`CLAUDE.md`.
+
+- **Source of truth** for exact columns, types and constraints: the Drizzle schema in
+  `apps/api/src/database/schema/`.
+- **Migrations:** `apps/api/drizzle/` (`0000` schema, `0001` security hardening, `0002`
+  rate-limit buckets).
+- **Tests:** `apps/api/test/database/schema.test.ts`.
+- **Scope of this doc:** each table's purpose and its important columns.
+
+**Differences from the original plan** (decided while building; each is marked in the tables
+below):
+
+| Planned | Implemented | Why |
+|---|---|---|
+| `chains` | `networks` | Mirror of the `@jokko/core` registry, upserted by the seed. The code registry is the source of truth. |
+| `chain_capabilities` | Static map in `@jokko/core` + `capability_overrides` | The code defines the maximum; the table can only switch things **off** (kill switch). |
+| `limits` | Keys in `app_config` (`security_thresholds_xof`, `phone_send_invite_limits_xof`, `phone_send_invite_ttl_hours`) | Same review and audit path as other runtime settings. |
+| `outbox_events` + Redis/BullMQ | `jobs`: job queue and outbox in one Postgres table | A job exists only if the change that caused it committed. **Differs from D18: founder sign-off pending** (`docs/HANDOFF.md` §4). |
+| `fee_promotions` | Rows in `fee_schedules` with a `segment`, a short validity window and a higher `priority` | One matching engine, no second source of rules. |
+| `admin_roles` | Role enum on `admin_user_roles` | Roles are a fixed list; no separate table needed. |
+| — | `rate_limit_buckets` (new) | Abuse limits shared by all API instances (phone-number lookups, invites, waitlist). |
+| Fiat `NUMERIC(24,8)` | Fiat in integer **minor units**, `NUMERIC(38,0)` (FCFA francs, cents) | No fractional rounding anywhere. Rates are `NUMERIC(38,18)`. |
+| Roles `app_rw`, `worker_rw`, `admin_ro`/`admin_rw`, `analytics_ro` | `jokko_api`, `jokko_worker`, `jokko_admin_api`, `jokko_analytics` | See `apps/api/src/database/sql/roles-and-grants.sql`. |
 
 ## Conventions (apply to every table)
 
@@ -11,15 +32,20 @@ column. The exact types are decided in the migration PRs.
   `deleted_at` where the law requires retention.
 - **Chain amounts:** `NUMERIC(78,0)` in base units + an `asset_id` reference (decimals live on
   the asset). **Never float.**
-- **Fiat amounts:** `NUMERIC(24,8)` + ISO 4217 `currency` (XOF/XAF have 0 display decimals).
+- **Fiat amounts:** integer minor units, `NUMERIC(38,0)` + ISO 4217 `currency` (XOF/XAF have
+  0 decimals, so 1 unit = 1 franc). Rates: `NUMERIC(38,18)`, kept as exact strings in code.
 - **Personal data** (phone, email, names): encrypted at field level (AWS KMS envelope
   encryption) + a keyed hash column (HMAC) for exact-match lookups. The plain value never sits
   in the database unencrypted.
-- **Append-only tables** (`audit_log`, `webhook_events`, `*_events`, `consents`): no UPDATE or
-  DELETE grants for the application role.
+- **Append-only tables** (`audit_log`, `consents`, `login_events`, `*_events`,
+  `pii_access_log`, `data_exports`, `company_wallet_movements`): database triggers reject
+  UPDATE, DELETE and TRUNCATE, and the grants script removes those rights too. `audit_log` is
+  hash-chained (`jokko_audit_verify()`). In `webhook_events`, the payload and its hash can never
+  change; only the processing status moves forward.
 - **Status columns** use Postgres enums and a forward-only state machine enforced in code.
-- **Database roles:** `app_rw` (API), `worker_rw`, `admin_ro` + narrow `admin_rw` grants,
-  `analytics_ro` (read replica, views only, no raw personal data), `migrator`.
+- **Database roles:** `jokko_api` (public API), `jokko_admin_api` (staff API), `jokko_worker`,
+  `jokko_analytics` (views in the `analytics` schema only, no personal data), plus a migrator
+  role that owns the schema.
 - **Retention:** counsel sets retention periods (the AML law requires keeping transaction
   records for several years). Deletion requests anonymise personal data but keep the
   transaction records required by law.
@@ -39,9 +65,9 @@ column. The exact types are decided in the migration PRs.
 
 | Table | Purpose | Key columns |
 |---|---|---|
-| `chains` | Supported networks | `key` (ethereum / polygon / bsc / solana / tron / bitcoin), `family` (evm / solana / tron / bitcoin), `chain_id`, `display_label`, `explorer_url`, `enabled`, `min_app_version` |
-| `assets` | Curated token allowlist (P7) | `chain_key`, `contract_address` (null for native), `symbol`, `name`, `decimals`, `is_stablecoin`, `price_source_id`, `icon_url`, `allowlisted`, `display_order` |
-| `chain_capabilities` | What's allowed where | `chain_key`, `capability` (send / receive / swap / stake / borrow / phone_send / gasless / card), `enabled`, `min_app_version`. Server can only disable what code supports |
+| `networks` (planned as `chains`) | Supported networks, mirrored from `@jokko/core` by the seed | `key` (ethereum / polygon / bsc / solana / tron / bitcoin), `family` (evm / solana / tron / bitcoin), `label_fr`, `label_en`, `native_symbol`, `native_decimals`, `supports_eip7702` |
+| `assets` | Curated token allowlist (P7), mirrored from `@jokko/core` by the seed | `id` (e.g. `usdc:polygon`), `symbol`, `name`, `network`, `kind` (native / token), `contract_mainnet`, `contract_testnet`, `decimals`, `is_stablecoin`, `price_id`, `review_status` (mainnet refuses tokens not `reviewed`) |
+| `capability_overrides` (planned as `chain_capabilities`) | Kill switches. The maximum is the static map in `@jokko/core`; this table can only switch a capability off | `network`, `capability` (send / receive / swap / stake / borrow / phoneSend / gasless / cardSpend / rampOn / rampOff), `enabled`, `reason`, `updated_by` |
 | `wallets` | User addresses (one per network family; one wallet per user at launch, P17) | `user_id`, `family` (evm / solana / tron / bitcoin), `address` (unique per family), `privy_wallet_id`, `wallet_kind` (embedded_eoa / eoa_7702), `delegation_address` (7702 delegate, pinned), `is_pregenerated`, `claimed_at` |
 | `balance_snapshots` | Cache for display and reporting, **never for send decisions** | `wallet_id`, `asset_id`, `balance_base_units`, `block_ref`, `observed_at` |
 | `foreign_network_detections` | Wrong-network safety net (`01` §7) | `wallet_id`, `chain_key` (e.g. bsc), `asset_symbol`, `amount_base_units`, `detected_at`, `resolved_at` |
@@ -70,7 +96,7 @@ column. The exact types are decided in the migration PRs.
 | `provider_customer_links` | Our user ↔ provider customer (KYC stays with the provider) | `user_id`, `provider`, `provider_customer_id`, `kyc_status` (none / pending / approved / rejected — a status reference only, no documents), `kyc_level`, `updated_at` |
 | `screening_results` | Sanctions / risk checks | `address`, `chain_key`, `provider`, `risk_level`, `categories`, `decision` (allow / flag / block), `checked_at`, `context` (send / receive / invite) |
 | `risk_alerts` | Things compliance reviews | `user_id`, `type`, `severity`, `details_json`, `status` (open / reviewing / closed), `assigned_to`, `resolution` |
-| `limits` | Configurable thresholds (security levels, invite caps) | `key`, `value`, `currency`, `effective_from` |
+| _(planned `limits`)_ | Thresholds and invite caps live in `app_config` instead | `security_thresholds_xof`, `phone_send_invite_limits_xof`, `phone_send_invite_ttl_hours` |
 
 ## 5. Integrations and reliability
 
@@ -78,7 +104,8 @@ column. The exact types are decided in the migration PRs.
 |---|---|---|
 | `webhook_events` | Every inbound webhook (append-only, idempotency) | `provider`, `provider_event_id` (**unique with provider**), `signature_valid`, `payload_enc`, `received_at`, `processed_at`, `status`, `attempts`, `error` |
 | `idempotency_keys` | Prevent double-creation from retries / double-taps | `user_id`, `key` (unique per user), `request_hash`, `response_json`, `expires_at` |
-| `outbox_events` | Exactly-once side effects | `topic`, `payload_json`, `status`, `attempts`, `available_at` |
+| `jobs` (replaces planned `outbox_events` + BullMQ) | Job queue and transactional outbox: inserted in the same transaction as the change that causes it; workers claim with `FOR UPDATE SKIP LOCKED`, retry with backoff, then `dead` | `queue`, `payload`, `status` (pending / running / succeeded / failed / dead), `attempts`, `max_attempts`, `run_at`, `locked_at`, `locked_by`, `dedupe_key` (unique), `last_error` |
+| `rate_limit_buckets` | Per-user abuse limits shared by all API instances | `key` (`<action>:<subject>`, never raw personal data), `window_start`, `count`, `expires_at` |
 | `provider_health` | Per provider/capability health for kill-switch decisions | `provider`, `capability`, `status`, `error_rate`, `updated_at` |
 
 ## 6. Notifications and engagement
@@ -99,7 +126,7 @@ column. The exact types are decided in the migration PRs.
 | Table | Purpose | Key columns |
 |---|---|---|
 | `fee_schedules` | Configurable commissions (versioned; changes need two approvers) | `product` (topup / withdraw / send / phone_send / swap / consolidate / stake / borrow / card / cash_topup), `action`, `chain_key` (nullable), `asset_id` (nullable), `country` (nullable), `segment` (nullable), `pct_bps`, `fixed_amount`, `fixed_currency`, `min_amount`, `max_amount`, `priority`, `status` (draft / pending_approval / active / retired), `effective_from`, `effective_to`, `created_by`, `approved_by` |
-| `fee_promotions` | Time-boxed overrides (e.g. first top-up without Jokko fee) | `fee_schedule_id` or `product`, `segment`, `pct_bps`, `fixed_amount`, `starts_at`, `ends_at` |
+| _(planned `fee_promotions`)_ | Promotions are `fee_schedules` rows with a `segment` and/or short validity window and a higher `priority` | — |
 | `fee_collections` | Every fee charged and how it was collected | `quote_id`, `transaction_id` / `ramp_session_id` / `swap_id`, `product`, `expected_amount`, `asset_id` or `fiat_currency`, `method` (onchain_transfer / provider_partner_fee / lifi_integrator_fee / everstake_revenue_share / escrow_claim), `status` (expected / collected / reconciled / disputed), `settlement_ref`, `reconciled_at` |
 | `company_wallets` | Jokko's own wallets (company money, never customer funds) | `purpose` (fee_treasury / rewards / escrow_keeper / kora_fee_payer), `chain_key`, `address`, `custody` (multisig / kms), `daily_cap` |
 | `company_wallet_movements` | Refills and payouts of company wallets | `company_wallet_id`, `direction`, `amount_base_units`, `asset_id`, `tx_hash`, `approved_by`, `reason` |
@@ -117,7 +144,7 @@ column. The exact types are decided in the migration PRs.
 | Table | Purpose | Key columns |
 |---|---|---|
 | `admin_users` | Staff accounts (via SSO) | `sso_subject`, `email`, `status`, `last_login_at` |
-| `admin_roles`, `admin_user_roles` | Role-based access | `role` (support / compliance / marketing / finance / admin) |
+| `admin_user_roles` (planned with a separate `admin_roles` table) | Role-based access; roles are a fixed enum, so no roles table is needed | `admin_user_id`, `role` (support / compliance / marketing / finance / admin) |
 | `admin_approvals` | Four-eyes requests | `action`, `target`, `requested_by`, `approved_by`, `status`, `payload_json` |
 | `audit_log` | **Every** sensitive action by users, staff and the system (append-only, hash-chained) | `actor_type` (user / admin / system), `actor_id`, `action`, `target_type`, `target_id`, `before_json`, `after_json`, `ip`, `device_id`, `reason`, `prev_hash`, `hash`, `created_at` |
 | `pii_access_log` | Who revealed which personal data | `admin_user_id`, `user_id`, `field`, `reason`, `created_at` |

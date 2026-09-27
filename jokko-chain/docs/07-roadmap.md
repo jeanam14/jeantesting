@@ -14,6 +14,27 @@ don't depend on each other. Each phase ends only when its exit criteria are met 
 
 Demo mode is a feature flag that can never be on in a production build (enforced in CI).
 
+## Progress (updated 2026-09-27)
+
+Legend: ✅ done · 🟡 partly done · ⬜ not started. Details and next steps: `docs/HANDOFF.md`.
+
+| Item | Status |
+|---|---|
+| **Step A: design** (37 screens, FR/EN) | ✅ done, **waiting for founder approval** |
+| **Step B: wallet shell** (Expo app, real Privy wallet, demo mode elsewhere) | ⬜ waits for design approval |
+| **Backend (D24)**, built ahead of Step B | 🟡 see the Phase 1 lines below |
+| Phase 0: founder decisions and provider/counsel input | 🟡 D1–D25 decided; O1–O14 and P3, P6, P7, P10, P13–P17 still open (`00-decision-log.md`) |
+| Phase 1: monorepo, strict TypeScript, TSDoc lint, formatting, tests | ✅ |
+| Phase 1: CI workflow and security gates (Semgrep/CodeQL, gitleaks, OSV/Socket, CODEOWNERS, branch protection) | ⬜ |
+| Phase 1: `packages/core` | 🟡 money, fiat, formatting, networks, assets, addresses, capabilities, fee engine, security levels and phone are done. Still to do: the transaction-pipeline skeleton and the P6 network recommendation |
+| Phase 1: `packages/i18n`, `packages/ui` | ⬜ |
+| Phase 1: Expo app shell | ⬜ (Step B) |
+| Phase 1: API shell | 🟡 Done: database, all tables and migrations (beyond the planned identity/config scope), security hardening, config validation, encryption, audit, job queue, idempotency, flags. Written but not wired: Privy token check, auth guard, minimum app version, rate limits. Not started: HTTP server, OpenAPI |
+| Phase 1: infrastructure (Terraform, `dev` AWS) | ⬜ |
+| Phase 1: admin console skeleton | ⬜ (admin API planned in `HANDOFF.md` task 7) |
+| Phase 1: waitlist screens | 🟡 designed; `waitlist_signups` table exists; no endpoint yet |
+| Phases 2–7 | ⬜ not started. Their database tables already exist, and the backend design for them is written up in `HANDOFF.md` §3 |
+
 ## Phase 0 — Decisions and external input (now, in parallel with Phase 1)
 
 - Founder confirms the remaining proposals (`00-decision-log.md`) and **the login channel (O12:
