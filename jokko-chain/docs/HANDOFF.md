@@ -56,8 +56,9 @@ skipped.
 
 ## 2. Verified state at handoff
 
-Every check passed on the final commit: `pnpm check` (prettier, eslint, build, typecheck,
-tests).
+Every check passed on the final commit: `pnpm check` (prettier, build, eslint, typecheck,
+tests). It also passed on a fresh clone of the export bundle, starting from a clean install.
+The build runs before lint because lint needs `@jokko/core`'s compiled types.
 
 | Package | State | Tests |
 |---|---|---|
@@ -280,7 +281,7 @@ sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';"
 
 # from the repository root
 pnpm install            # pnpm 10.33.0, Node 22 (see .nvmrc)
-pnpm check              # format, lint, build, typecheck, all tests
+pnpm check              # format, build, lint, typecheck, all tests
 ```
 
 - The API tests recreate the database `jokko_api_test` and apply every migration. Override the
